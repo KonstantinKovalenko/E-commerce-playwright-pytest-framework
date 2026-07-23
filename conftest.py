@@ -3,6 +3,10 @@ import pytest
 
 from config.settings import BASE_URL
 from pages.home_page import HomePage
+from pages.signup_login_page import SignupLoginPage
+from pages.account_life_cycle.registration_page import RegistrationPage
+from pages.account_life_cycle.account_created_page import AccountCreatedPage
+from pages.account_life_cycle.delete_account_page import DeleteAccountPage
 
 
 @pytest.fixture(scope="session")
@@ -24,6 +28,23 @@ def base_url():
 @pytest.fixture(scope="function")
 def home_page(page):
     return HomePage(page)
+
+
+@pytest.fixture(scope="function")
+def signup_login_page(page):
+    return SignupLoginPage(page)
+
+@pytest.fixture(scope="function")
+def registration_page(page):
+    return RegistrationPage(page)
+
+@pytest.fixture(scope="function")
+def account_created_page(page):
+    return AccountCreatedPage(page)
+
+@pytest.fixture(scope="function")
+def delete_account_page(page):
+    return DeleteAccountPage(page)
 
 
 # ----------------------------
