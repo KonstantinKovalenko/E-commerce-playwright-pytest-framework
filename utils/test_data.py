@@ -25,3 +25,7 @@ CONTACT_US = {
 UPLOAD_FILE_PATH = {
     "path": "resources/test_file.txt"
 }
+
+SEARCH = {
+    "product": "Fancy Green Top"
+}
