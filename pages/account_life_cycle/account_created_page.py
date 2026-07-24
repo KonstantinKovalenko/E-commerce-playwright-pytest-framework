@@ -1,7 +1,6 @@
 from pages.base_page import BasePage
 
 class AccountCreatedPage(BasePage):
-
     ACCOUNT_CREATED_TITLE = '[data-qa="account-created"]'
     CONTINUE_BUTTON = '[data-qa="continue-button"]'
 

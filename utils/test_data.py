@@ -10,3 +10,8 @@ TEST_USER = {
     "zipcode": "12345",
     "mobile": "+1234567890",
 }
+
+INVALID_USER = {
+    "email": "wrong@example.com",
+    "password": "WrongPassword123!"
+}

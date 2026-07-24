@@ -1,7 +1,6 @@
 from pages.base_page import BasePage
 
 class DeleteAccountPage(BasePage):
-
     ACCOUNT_DELETED_TITLE = '[data-qa="account-deleted"]'
     CONTINUE_BUTTON = '[data-qa="continue-button"]'
 

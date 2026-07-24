@@ -1,9 +1,9 @@
 import allure
+
 from playwright.sync_api import Locator, Page, expect
 from config.settings import BASE_URL
 
 class BasePage:
-
     BASE_URL = BASE_URL
     PATH = ""
 
@@ -19,7 +19,9 @@ class BasePage:
             locator.click()
 
     def fill(self, locator: Locator, value: str, name: str):
-        with allure.step(f'Fill "{name}" with "{value}"'):
+        display_value = "********" if "password" in name.lower() else value
+        
+        with allure.step(f'Fill "{name}" with "{display_value}"'):
             locator.fill(value)
 
     def type(self, locator: Locator, value: str, name: str):

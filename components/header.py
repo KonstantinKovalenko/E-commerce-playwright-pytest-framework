@@ -1,13 +1,11 @@
 from playwright.sync_api import Page
-
 from pages.base_page import BasePage
 
-
 class Header(BasePage):
-
     SIGNUP_LOGIN_BUTTON = 'a[href="/login"]'
-    LOGGED_IN_USER = 'a:has-text("Logged in as")'
+    LOGOUT_BUTTON = 'a[href="/logout"]'
     DELETE_ACCOUNT_BUTTON = 'a[href="/delete_account"]'
+    LOGGED_IN_USER = 'a:has-text("Logged in as")'
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -28,4 +26,10 @@ class Header(BasePage):
         self.click(
             self.page.locator(self.DELETE_ACCOUNT_BUTTON),
             "Delete Account button"
+        )
+
+    def click_logout(self):
+        self.click(
+            self.page.locator(self.LOGOUT_BUTTON),
+            "Logout button"
         )

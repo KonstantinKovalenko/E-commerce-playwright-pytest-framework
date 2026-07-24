@@ -8,7 +8,6 @@ from pages.account_life_cycle.registration_page import RegistrationPage
 from pages.account_life_cycle.account_created_page import AccountCreatedPage
 from pages.account_life_cycle.delete_account_page import DeleteAccountPage
 
-
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
     return {
@@ -18,7 +17,6 @@ def browser_context_args(browser_context_args):
             "height": 1080,
         },
     }
-
 
 @pytest.fixture(scope="session")
 def base_url():
@@ -45,7 +43,6 @@ def account_created_page(page):
 @pytest.fixture(scope="function")
 def delete_account_page(page):
     return DeleteAccountPage(page)
-
 
 # ----------------------------
 # Allure screenshot on failure

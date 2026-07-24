@@ -2,7 +2,6 @@ from pages.base_page import BasePage
 from utils.test_data import TEST_USER
 
 class RegistrationPage(BasePage):
-
     ACCOUNT_INFORMATION_TITLE = 'h2:has-text("Enter Account Information")'
 
     MALE_RADIO = "#id_gender1"
