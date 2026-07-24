@@ -52,3 +52,7 @@ class BasePage:
 
     def wait_for_load(self):
         self.page.wait_for_load_state("networkidle")
+
+    def verify_text_contains(self, locator: Locator, expected: str):
+        with allure.step(f'Verify text contains "{expected}"'):
+            expect(locator).to_contain_text(expected)

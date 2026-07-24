@@ -8,6 +8,9 @@ from pages.account_life_cycle.registration_page import RegistrationPage
 from pages.account_life_cycle.account_created_page import AccountCreatedPage
 from pages.account_life_cycle.delete_account_page import DeleteAccountPage
 from pages.contact_us_page import ContactUsPage
+from pages.test_cases_page import TestCasesPage
+from pages.products_page import ProductsPage
+from pages.product_details_page import ProductDetailsPage
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
@@ -46,6 +49,18 @@ def delete_account_page(page):
 @pytest.fixture(scope="function")
 def contact_us_page(page):
     return ContactUsPage(page)
+
+@pytest.fixture(scope="function")
+def test_cases_page(page):
+    return TestCasesPage(page)
+
+@pytest.fixture(scope="function")
+def products_page(page):
+    return ProductsPage(page)
+
+@pytest.fixture(scope="function")
+def product_details_page(page):
+    return ProductDetailsPage(page)
 
 # ----------------------------
 # Allure screenshot on failure

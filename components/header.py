@@ -2,10 +2,12 @@ from playwright.sync_api import Page
 from pages.base_page import BasePage
 
 class Header(BasePage):
+    PRODUCTS_BUTTON = 'a[href="/products"]'
     SIGNUP_LOGIN_BUTTON = 'a[href="/login"]'
     LOGOUT_BUTTON = 'a[href="/logout"]'
     DELETE_ACCOUNT_BUTTON = 'a[href="/delete_account"]'
     CONTACT_US_BUTTON = 'a[href="/contact_us"]'
+    TEST_CASES_BUTTON = '.shop-menu a[href="/test_cases"]'
     LOGGED_IN_USER = 'a:has-text("Logged in as")'
 
     def __init__(self, page: Page):
@@ -39,4 +41,16 @@ class Header(BasePage):
         self.click(
             self.page.locator(self.CONTACT_US_BUTTON),
             "Contact us button"
+        )
+
+    def click_test_cases(self):
+        self.click(
+            self.page.locator(self.TEST_CASES_BUTTON),
+            "Test Cases button"
+        )
+
+    def click_products(self):
+        self.click(
+            self.page.locator(self.PRODUCTS_BUTTON),
+            "Products button"
         )
