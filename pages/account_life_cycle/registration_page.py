@@ -60,6 +60,3 @@ class RegistrationPage(BasePage):
             self.page.locator(self.CREATE_ACCOUNT_BUTTON),
             "Create Account button"
         )
-
-    def wait_for_timeout(self, timeout: int):
-        self.page.wait_for_timeout(5000)

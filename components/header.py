@@ -5,6 +5,7 @@ class Header(BasePage):
     SIGNUP_LOGIN_BUTTON = 'a[href="/login"]'
     LOGOUT_BUTTON = 'a[href="/logout"]'
     DELETE_ACCOUNT_BUTTON = 'a[href="/delete_account"]'
+    CONTACT_US_BUTTON = 'a[href="/contact_us"]'
     LOGGED_IN_USER = 'a:has-text("Logged in as")'
 
     def __init__(self, page: Page):
@@ -32,4 +33,10 @@ class Header(BasePage):
         self.click(
             self.page.locator(self.LOGOUT_BUTTON),
             "Logout button"
+        )
+
+    def click_contact_us(self):
+        self.click(
+            self.page.locator(self.CONTACT_US_BUTTON),
+            "Contact us button"
         )

@@ -15,3 +15,13 @@ INVALID_USER = {
     "email": "wrong@example.com",
     "password": "WrongPassword123!"
 }
+
+CONTACT_US = {
+    "name": "Konstantin",
+    "subject": "Test submission",
+    "message": "It is a test message, please ignore it."
+}
+
+UPLOAD_FILE_PATH = {
+    "path": "resources/test_file.txt"
+}
