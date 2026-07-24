@@ -56,3 +56,7 @@ class BasePage:
     def verify_text_contains(self, locator: Locator, expected: str):
         with allure.step(f'Verify text contains "{expected}"'):
             expect(locator).to_contain_text(expected)
+
+    def scroll_to(self, locator: Locator, name: str):
+        with allure.step(f'Scroll to "{name}"'):
+            locator.scroll_into_view_if_needed()

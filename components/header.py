@@ -3,6 +3,7 @@ from pages.base_page import BasePage
 
 class Header(BasePage):
     PRODUCTS_BUTTON = 'a[href="/products"]'
+    CART_BUTTON = '.shop-menu a[href="/view_cart"]'
     SIGNUP_LOGIN_BUTTON = 'a[href="/login"]'
     LOGOUT_BUTTON = 'a[href="/logout"]'
     DELETE_ACCOUNT_BUTTON = 'a[href="/delete_account"]'
@@ -53,4 +54,10 @@ class Header(BasePage):
         self.click(
             self.page.locator(self.PRODUCTS_BUTTON),
             "Products button"
+        )
+
+    def click_cart(self):
+        self.click(
+            self.page.locator(self.CART_BUTTON),
+            "Cart button"
         )

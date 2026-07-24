@@ -11,6 +11,7 @@ from pages.contact_us_page import ContactUsPage
 from pages.test_cases_page import TestCasesPage
 from pages.products_page import ProductsPage
 from pages.product_details_page import ProductDetailsPage
+from pages.cart_page import CartPage
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
@@ -61,6 +62,10 @@ def products_page(page):
 @pytest.fixture(scope="function")
 def product_details_page(page):
     return ProductDetailsPage(page)
+
+@pytest.fixture(scope="function")
+def cart_page(page):
+    return CartPage(page)
 
 # ----------------------------
 # Allure screenshot on failure
