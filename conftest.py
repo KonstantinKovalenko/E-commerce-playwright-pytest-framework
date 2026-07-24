@@ -82,3 +82,29 @@ def pytest_runtest_makereport(item):
             name=f"{item.name}_failure",
             attachment_type=allure.attachment_type.PNG,
         )
+
+@pytest.fixture(scope="function")
+def page(context):
+    page = context.new_page()
+
+    page.route(
+        "**/*",
+        lambda route: route.abort()
+        if any(domain in route.request.url for domain in [
+            "doubleclick.net",
+            "googlesyndication.com",
+            "googleadservices.com",
+            "adservice.google.com",
+            "ads-twitter.com",
+            "amazon-adsystem.com",
+            "googleads.g.doubleclick.net",
+            "tpc.googlesyndication.com",
+        ])
+        else route.continue_()
+    )
+
+    page.set_viewport_size({"width": 1920, "height": 1080})
+
+    yield page
+
+    page.close()
