@@ -1,14 +1,22 @@
 TEST_USER = {
-    "name": "Konstantin",
+    "name": "John",
     "password": "Password123!",
-    "first_name": "Konstantin",
-    "last_name": "Kovalenko",
+    "first_name": "John",
+    "last_name": "White",
     "address": "Main Street 1",
     "country": "Canada",
     "state": "Ontario",
     "city": "Toronto",
     "zipcode": "12345",
-    "mobile": "+1234567890",
+    "mobile": "+1234567890"
+}
+
+TEST_CARD = {
+    "name": "John White",
+    "number": "1111 2222 3333 4444",
+    "cvc": "987",
+    "e_month": "12",
+    "e_year": "2050"
 }
 
 INVALID_USER = {
@@ -28,4 +36,8 @@ UPLOAD_FILE_PATH = {
 
 SEARCH = {
     "product": "Fancy Green Top"
+}
+
+QUANTITY = {
+    "value" : 4
 }
