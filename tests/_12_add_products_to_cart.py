@@ -13,13 +13,13 @@ def test_add_products_to_cart(home_page, products_page, cart_page):
 
     products_page.verify_loaded()
     
-    product1 = products_page.get_product_info(0)
+    product_1 = products_page.get_product_info(0)
     products_page.hover_over_product(0)
     products_page.add_product_to_cart(0)
 
     products_page.click_modal_continue_shopping()
 
-    product2 = products_page.get_product_info(1)
+    product_2 = products_page.get_product_info(1)
     products_page.hover_over_product(1)
     products_page.add_product_to_cart(1)
 
@@ -27,5 +27,5 @@ def test_add_products_to_cart(home_page, products_page, cart_page):
 
     cart_page.verify_loaded()
 
-    cart_page.verify_product(0, product1)
-    cart_page.verify_product(1, product2)
+    cart_page.verify_product(0, product_1)
+    cart_page.verify_product(1, product_2)

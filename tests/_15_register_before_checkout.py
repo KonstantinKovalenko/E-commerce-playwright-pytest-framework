@@ -4,27 +4,15 @@ from utils.data_generator import generate_email
 from utils.test_data import TEST_USER
 
 @allure.feature("Checkout")
-@allure.story("Register while checkout")
-@allure.title("Register user while checkout")
-@allure.description("Verify user can register an account while try to checkout and then complete checkout.")
+@allure.story("Register before checkout")
+@allure.title("Register user before checkout")
+@allure.description("Verify user can register an account and then complete checkout.")
 
-def test_register_while_checkout(home_page, products_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page, registration_page, account_created_page, delete_account_page):
+def test_register_before_checkout(home_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page, registration_page, account_created_page, delete_account_page):
     home_page.open()
     home_page.verify_loaded()
 
-    home_page.header.click_products()
-    products_page.verify_loaded()
-    
-    product = products_page.get_product_info(3)
-    products_page.hover_over_product(3)
-    products_page.add_product_to_cart(3)
-    
-    products_page.click_modal_view_cart()
-    cart_page.verify_loaded()
-
-    cart_page.click_proceed_to_checkout()
-    cart_page.click_modal_register_login()
-
+    home_page.header.click_signup_login()
     signup_login_page.verify_new_user_signup_visible()
 
     email = generate_email()
@@ -40,8 +28,12 @@ def test_register_while_checkout(home_page, products_page, cart_page, signup_log
     account_created_page.click_continue()
 
     home_page.header.verify_logged_in()
-
-    home_page.header.click_cart()
+  
+    product = home_page.get_product_info(9)
+    home_page.add_product_to_cart(9)
+    
+    home_page.click_modal_view_cart()
+    cart_page.verify_loaded()
 
     cart_page.click_proceed_to_checkout()
     checkout_page.verify_loaded()

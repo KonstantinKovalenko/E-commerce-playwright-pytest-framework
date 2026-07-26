@@ -1,7 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
-from utils.test_data import TEST_USER, CONTACT_US
+from utils.test_data import CONTACT_US
 
 class CheckoutPage(BasePage):
     PATH = "/checkout"
@@ -51,22 +51,13 @@ class CheckoutPage(BasePage):
                 f"Rs. {expected_total}"
             )
 
-    def verify_delivery_address(self):
+    def verify_delivery_address(self, user: dict):
         address = self.page.locator(self.DELIVERY_ADDRESS)
-        self.verify_text_contains(address, f'{TEST_USER["first_name"]} {TEST_USER["last_name"]}')
-        self.verify_text_contains(address, TEST_USER["address"])
-        self.verify_text_contains(address, f'{TEST_USER["city"]} {TEST_USER["state"]} {TEST_USER["zipcode"]}')
-        self.verify_text_contains(address, TEST_USER["country"])
-        self.verify_text_contains(address, TEST_USER["mobile"])
-
-    def verify_delivery_address2(self):
-        address = self.page.locator(self.DELIVERY_ADDRESS)
-
-        self.verify_text_contains(address, "Mr. Good User")
-        self.verify_text_contains(address, "Baker street")
-        self.verify_text_contains(address, "New York Ohio 12000")
-        self.verify_text_contains(address, "United States")
-        self.verify_text_contains(address, "+123456789")
+        self.verify_text_contains(address, f'{user["first_name"]} {user["last_name"]}')
+        self.verify_text_contains(address, user["address"])
+        self.verify_text_contains(address, f'{user["city"]} {user["state"]} {user["zipcode"]}')
+        self.verify_text_contains(address, user["country"])
+        self.verify_text_contains(address, user["mobile"])
 
     def add_comment(self):
         self.fill(self.page.locator(self.COMMENT_TEXT_AREA), CONTACT_US["message"], "Comment")

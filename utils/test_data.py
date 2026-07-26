@@ -11,6 +11,18 @@ TEST_USER = {
     "mobile": "+1234567890"
 }
 
+EXISTING_USER = {
+    "title": "Mr.",
+    "first_name": "Good",
+    "last_name": "User",
+    "address": "Baker street",
+    "city": "New York",
+    "state": "Ohio",
+    "zipcode": "12000",
+    "country": "United States",
+    "mobile": "+123456789",
+}
+
 TEST_CARD = {
     "name": "John White",
     "number": "1111 2222 3333 4444",
@@ -25,7 +37,7 @@ INVALID_USER = {
 }
 
 CONTACT_US = {
-    "name": "Konstantin",
+    "name": "John White",
     "subject": "Test submission",
     "message": "It is a test message, please ignore it."
 }
