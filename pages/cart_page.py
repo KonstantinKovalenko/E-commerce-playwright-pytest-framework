@@ -2,6 +2,7 @@ import allure
 
 from components.footer import Footer
 from pages.base_page import BasePage
+from playwright.sync_api import expect
 
 class CartPage(BasePage):
     PATH = "/view_cart"
@@ -13,8 +14,11 @@ class CartPage(BasePage):
     ITEM_TOTAL_PRICE = ".cart_total p"
 
     PROCEED_TO_CHECHOUT_BUTTON = "#do_action .check_out"
-    
     MODAL_REGISTER_LOGIN_BUTTON = '.modal-body a[href="/login"]'
+
+    REMOVE_PRODUCT_BUTTON = ".cart_quantity_delete"
+
+    EMPTY_CART = "#empty_cart b"
 
     def __init__(self, page):
         super().__init__(page)
@@ -68,3 +72,19 @@ class CartPage(BasePage):
                 product.locator(self.ITEM_QUANTITY),
                 str(expected)
             )
+
+    def verify_cart_empty(self):
+            self.verify_text(
+                self.page.locator(self.EMPTY_CART),
+                "Cart is empty!"
+            )
+
+    def remove_all_products(self):
+        with allure.step(f'Remove all products from cart'):
+            while self.page.locator(self.CART_ITEMS).count() > 0:
+                rows = self.page.locator(self.CART_ITEMS)
+                previous = rows.count()
+
+                rows.last.locator(self.REMOVE_PRODUCT_BUTTON).click()
+
+                expect(rows).to_have_count(previous - 1)

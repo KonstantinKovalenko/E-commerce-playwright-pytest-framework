@@ -53,3 +53,25 @@ SEARCH = {
 QUANTITY = {
     "value" : 4
 }
+
+CATEGORIES = {
+    "women": "Women",
+    "men": "Men",
+    "kids": "Kids"
+}
+
+WOMEN_CATEGORIES = {
+    "dress": "Dress",
+    "tops": "Tops",
+    "saree": "Saree"
+}
+
+MEN_CATEGORIES = {
+    "tshirts": "Tshirts",
+    "jeans": "Jeans"
+}
+
+KIDS_CATEGORIES = {
+    "dress": "Dress",
+    "tops_shirts": "Tops & Shirts"
+}

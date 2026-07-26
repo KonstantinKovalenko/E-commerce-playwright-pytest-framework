@@ -4,6 +4,8 @@ from components.header import Header
 from components.footer import Footer
 from pages.base_page import BasePage
 
+from utils.test_data import CATEGORIES
+
 class HomePage(BasePage):
     PATH = "/"
 
@@ -14,6 +16,14 @@ class HomePage(BasePage):
     MODAL_VIEW_CART_BUTTON = '.modal-body a[href="/view_cart"]'
     ADD_TO_CART_BUTTON = ".features_items .productinfo a"
 
+    CATEGORIES_SECTION = "#accordian"
+
+    CATEGORY_BUTTONS = {
+        CATEGORIES["women"]: ('a[href="#Women"]', "#Women li"),
+        CATEGORIES["men"]: ('a[href="#Men"]', "#Men li"),
+        CATEGORIES["kids"]: ('a[href="#Kids"]', "#Kids li"),
+    }
+
     def __init__(self, page):
         super().__init__(page)
         self.header = Header(page)
@@ -21,6 +31,12 @@ class HomePage(BasePage):
 
     def verify_loaded(self):
         self.verify_title("Automation Exercise")
+
+    def verify_categories_visible(self):
+        self.verify_visible(
+            self.page.locator(self.CATEGORIES_SECTION),
+            "Category section"
+        )
 
     def click_view_product(self, index: int):
         self.click(
@@ -56,3 +72,19 @@ class HomePage(BasePage):
             self.page.locator(self.MODAL_CONTINUE_SHOPPING_BUTTON),
             "Continue shopping"
         )
+
+    def select_category(self, category: str, filter: str):
+        with allure.step(f'Select category: "{category}" > "{filter}"'):
+            category_button, category_list = self.CATEGORY_BUTTONS[category]
+
+            self.click(
+                self.page.locator(category_button),
+                f"{category} category"
+            )
+
+            self.click(
+                self.page.locator(category_list)
+                    .filter(has_text=filter)
+                    .locator("a"),
+                f"{filter} filter"
+            )

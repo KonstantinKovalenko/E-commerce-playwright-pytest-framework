@@ -1,4 +1,5 @@
 import allure
+import re
 
 from playwright.sync_api import Locator, Page, expect
 from config.settings import BASE_URL
@@ -49,6 +50,10 @@ class BasePage:
     def verify_url(self, expected: str):
         with allure.step(f'Verify URL "{expected}"'):
             expect(self.page).to_have_url(expected)
+
+    def verify_url_contains(self, text: str):
+        with allure.step(f'Verify URL contains "{text}"'):
+            expect(self.page).to_have_url(re.compile(f".*{re.escape(text)}.*"))
 
     def wait_for_load(self):
         self.page.wait_for_load_state("networkidle")
