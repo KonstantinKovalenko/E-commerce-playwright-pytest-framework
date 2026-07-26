@@ -24,6 +24,10 @@ class HomePage(BasePage):
         CATEGORIES["kids"]: ('a[href="#Kids"]', "#Kids li"),
     }
 
+    RECOMMENDED_SECTION = ".recommended_items"
+    RECOMMENDED_ITEMS = ".recommended_items .productinfo"
+    RECOMMENDED_ADD_TO_CART_BUTTON = ".recommended_items .productinfo a"
+
     def __init__(self, page):
         super().__init__(page)
         self.header = Header(page)
@@ -38,27 +42,31 @@ class HomePage(BasePage):
             "Category section"
         )
 
+    def verify_recommended_visible(self):
+        self.verify_visible(
+            self.page.locator(self.RECOMMENDED_SECTION),
+            "Recommended section"
+        )
+
     def click_view_product(self, index: int):
         self.click(
             self.page.locator(self.VIEW_PRODUCT).nth(index),
             f"#{index + 1} product's View Product" 
         )
 
-    def get_product_info(self, index: int):
-        with allure.step(f'Get information from product: #{index + 1}'):
-            product = self.page.locator(self.PRODUCT_CARDS).nth(index)
-            name = product.locator("p").inner_text()
-            price = int(product.locator("h2").inner_text().replace("Rs. ", ""))
+    def get_product_info(self, locator: str, index: int):
+        with allure.step(f'Get information from product #{index + 1}'):
+            product = self.page.locator(locator).nth(index)
 
             return {
-                "name": name,
-                "price": price
+                "name": product.locator("p").inner_text(),
+                "price": int(product.locator("h2").inner_text().replace("Rs. ", ""))
             }
 
-    def add_product_to_cart(self, index: int):
+    def add_product_to_cart(self, locator: str, index: int):
         self.click(
-            self.page.locator(self.ADD_TO_CART_BUTTON).nth(index),
-            f'Add product #{index + 1} to cart'
+            self.page.locator(locator).nth(index),
+            f"Add product #{index + 1} to cart"
         )
 
     def click_modal_view_cart(self):
@@ -88,3 +96,9 @@ class HomePage(BasePage):
                     .locator("a"),
                 f"{filter} filter"
             )
+
+    def scroll_down_to_recommended(self):
+        self.scroll_to(
+            self.page.locator(self.RECOMMENDED_SECTION),
+            "Site recommended"
+        )

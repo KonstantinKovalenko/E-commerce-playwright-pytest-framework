@@ -29,8 +29,8 @@ def test_register_before_checkout(home_page, cart_page, signup_login_page, check
 
     home_page.header.verify_logged_in()
   
-    product = home_page.get_product_info(9)
-    home_page.add_product_to_cart(9)
+    product = home_page.get_product_info(home_page.PRODUCT_CARDS, 9)
+    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 9)
     
     home_page.click_modal_view_cart()
     cart_page.verify_loaded()

@@ -11,7 +11,7 @@ def test_product_quantity(home_page, product_details_page, cart_page):
     home_page.open()
     home_page.verify_loaded()
 
-    product = home_page.get_product_info(2)
+    product = home_page.get_product_info(home_page.PRODUCT_CARDS, 2)
     home_page.click_view_product(2)
 
     product_details_page.verify_loaded()

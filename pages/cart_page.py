@@ -25,7 +25,7 @@ class CartPage(BasePage):
         self.footer = Footer(page)
 
     def verify_loaded(self):
-        self.verify_title("Automation Exercise - Checkout")
+        self.verify_url(self.PATH)
 
     def click_proceed_to_checkout(self):
         self.click(
@@ -88,3 +88,34 @@ class CartPage(BasePage):
                 rows.last.locator(self.REMOVE_PRODUCT_BUTTON).click()
 
                 expect(rows).to_have_count(previous - 1)
+
+    def get_cart_products(self):
+        with allure.step(f'Get contents of the cart'):
+            products = []
+            rows = self.page.locator(self.CART_ITEMS)
+
+            for i in range(rows.count()):
+                row = rows.nth(i)
+
+                products.append({
+                    "name": row.locator(self.ITEM_NAME).inner_text(),
+                    "price": int(
+                        row.locator(self.ITEM_PRICE).inner_text().replace("Rs. ", "")
+                    ),
+                    "quantity": int(
+                        row.locator(self.ITEM_QUANTITY).inner_text()
+                    ),
+                    "total": int(
+                        row.locator(self.ITEM_TOTAL_PRICE).inner_text().replace("Rs. ", "")
+                    )
+                })
+
+            return products
+
+    def verify_cart_contents_unchanged(self, actual_products: list[dict], expected_products: list[dict]):
+        with allure.step(f'Verify remembered products in the cart remain unchanged'):
+            assert actual_products == expected_products, (
+                f"Cart contents changed.\n"
+                f"Expected: {expected_products}\n"
+                f"Actual: {actual_products}"
+            )

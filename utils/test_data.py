@@ -47,7 +47,8 @@ UPLOAD_FILE_PATH = {
 }
 
 SEARCH = {
-    "product": "Fancy Green Top"
+    "product": "Fancy Green Top",
+    "jeans": "Jeans"
 }
 
 QUANTITY = {
@@ -74,4 +75,20 @@ MEN_CATEGORIES = {
 KIDS_CATEGORIES = {
     "dress": "Dress",
     "tops_shirts": "Tops & Shirts"
+}
+
+BRANDS = {
+    "polo": "Polo",
+    "h_m": "H&M",
+    "madame": "Madame",
+    "mast_harbour": "Mast & Harbour",
+    "babyhug": "Babyhug",
+    "allen_solly_junior": "Allen Solly Junior",
+    "kookie_kids": "Kookie Kids",
+    "biba": "Biba"
+}
+
+REVIEW = {
+    "name": "John White",
+    "message": "This is a test review, do not be concerned."
 }

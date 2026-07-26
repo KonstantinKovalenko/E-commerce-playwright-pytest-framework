@@ -19,13 +19,13 @@ def test_register_while_checkout(home_page, products_page, cart_page, signup_log
     home_page.verify_loaded()
     home_page.header.verify_logged_in()
 
-    product_1 = home_page.get_product_info(5)
-    home_page.add_product_to_cart(5)
+    product1 = home_page.get_product_info(home_page.PRODUCT_CARDS, 5)
+    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 5)
 
     home_page.click_modal_continue_shopping()
 
-    product_2 = home_page.get_product_info(6)
-    home_page.add_product_to_cart(6)
+    product2 = home_page.get_product_info(home_page.PRODUCT_CARDS, 6)
+    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 6)
 
     home_page.click_modal_view_cart()
     cart_page.verify_loaded()
