@@ -10,11 +10,17 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   playwright-tests:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
@@ -48,33 +54,34 @@ jobs:
           name: allure-results
           path: allure-results
 
-      - name: Checkout gh-pages branch
+      - name: Install Allure CLI
         if: always()
-        uses: actions/checkout@v4
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+        run: |
+          npm install -g allure-commandline
 
-      - name: Generate Allure Report with history
+      - name: Generate Allure Report
         if: always()
-        uses: simple-elf/allure-report-action@v1.9
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-          gh_pages: gh-pages
+        run: |
+          allure generate allure-results --clean -o allure-report
 
       - name: Upload Allure Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-history
+          path: allure-report
 
-      - name: Deploy Allure Report to GitHub Pages
+      - name: Configure GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v4
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+          path: allure-report
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        id: deployment
+        uses: actions/deploy-pages@v4
