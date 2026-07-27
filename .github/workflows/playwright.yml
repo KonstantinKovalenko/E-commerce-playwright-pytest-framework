@@ -59,7 +59,8 @@ jobs:
 
       - name: Install Allure CLI
         if: always()
-        run: npm install -g allure-commandline
+        run: |
+          npm install -g allure-commandline
 
       - name: Generate Allure Report
         if: always()
@@ -73,6 +74,42 @@ jobs:
           name: allure-report-${{ matrix.browser }}
           path: allure-report
 
+      - name: Configure GitHub Pages
+        if: always()
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        id: deployment
+        uses: actions/deploy-pages@v4
+
       - name: Fail workflow if tests failed
         if: steps.tests.outcome == 'failure'
         run: exit 1
+
+      - name: Notify Slack
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            COLOR="good"
+            STATUS="✅ PASSED"
+          else
+            COLOR="danger"
+            STATUS="❌ FAILED"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"attachments\": [{
+              \"color\": \"$COLOR\",
+              \"title\": \"Playwright Tests (${{ matrix.browser }}) $STATUS\",
+              \"text\": \"Repository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nReport: https://${{ github.repository_owner }}.github.io/E-commerce-playwright-pytest-framework/\"
+            }]
+          }" \
+          ${{ secrets.SLACK_WEBHOOK }}
