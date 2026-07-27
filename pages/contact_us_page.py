@@ -40,12 +40,6 @@ class ContactUsPage(BasePage):
         with allure.step(f'Upload file from "{file_path}"'):
             self.page.locator(self.UPLOAD_FILE_BUTTON).set_input_files(file_path)
 
-    def click_submit(self):
-        self.click(
-            self.page.locator(self.SUBMIT_BUTTON),
-            "Submit button"
-        )
-
     def click_home(self):
         self.click(
             self.page.locator(self.HOME_BUTTON),
@@ -56,5 +50,4 @@ class ContactUsPage(BasePage):
         with allure.step("Submit contact form"):
             with allure.step("Prepare to click 'OK' in pup-up dialog"):
                 self.page.once("dialog", lambda dialog: dialog.accept())
-
-        self.click(self.page.locator(self.SUBMIT_BUTTON), "Submit button")
+                self.click(self.page.locator(self.SUBMIT_BUTTON), "Submit button")
