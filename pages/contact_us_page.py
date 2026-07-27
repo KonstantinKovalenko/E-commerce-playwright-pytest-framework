@@ -51,7 +51,10 @@ class ContactUsPage(BasePage):
             self.page.locator(self.HOME_BUTTON),
             "Home button"
         )
-    
-    def accept_dialog(self):
-        with allure.step("Accept confirmation dialog"):
-            self.page.once("dialog", lambda dialog: dialog.accept())
+
+    def submit_form(self):
+        with allure.step("Submit contact form"):
+            with allure.step("Prepare to click 'OK' in pup-up dialog"):
+                self.page.once("dialog", lambda dialog: dialog.accept())
+
+        self.click(self.page.locator(self.SUBMIT_BUTTON), "Submit button")

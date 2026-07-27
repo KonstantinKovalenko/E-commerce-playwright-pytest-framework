@@ -114,24 +114,25 @@ def pytest_runtest_makereport(item):
         )
 
 @pytest.fixture(scope="function")
-def page(context):
+def page(request, context):
     page = context.new_page()
 
-    page.route(
-        "**/*",
-        lambda route: route.abort()
-        if any(domain in route.request.url for domain in [
-            "doubleclick.net",
-            "googlesyndication.com",
-            "googleadservices.com",
-            "adservice.google.com",
-            "ads-twitter.com",
-            "amazon-adsystem.com",
-            "googleads.g.doubleclick.net",
-            "tpc.googlesyndication.com",
-        ])
-        else route.continue_()
-    )
+    if "no_ads_block" not in request.keywords:
+        page.route(
+            "**/*",
+            lambda route: route.abort()
+            if any(domain in route.request.url for domain in [
+                "doubleclick.net",
+                "googlesyndication.com",
+                "googleadservices.com",
+                "adservice.google.com",
+                "ads-twitter.com",
+                "amazon-adsystem.com",
+                "googleads.g.doubleclick.net",
+                "tpc.googlesyndication.com",
+            ])
+            else route.continue_()
+        )
 
     page.set_viewport_size({"width": 1920, "height": 1080})
 

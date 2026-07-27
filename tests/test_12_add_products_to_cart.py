@@ -29,3 +29,6 @@ def test_add_products_to_cart(home_page, products_page, cart_page):
 
     cart_page.verify_product(0, product_1)
     cart_page.verify_product(1, product_2)
+
+    cart_page.remove_all_products()
+    cart_page.verify_cart_empty()

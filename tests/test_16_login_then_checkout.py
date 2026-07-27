@@ -8,7 +8,7 @@ from utils.test_data import EXISTING_USER
 @allure.title("Login and then checkout")
 @allure.description("Verify user can login and then successfully complete checkout.")
 
-def test_register_while_checkout(home_page, products_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page):
+def test_login_then_checkout(home_page, products_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page):
     home_page.open()
     home_page.verify_loaded()
 
@@ -19,12 +19,12 @@ def test_register_while_checkout(home_page, products_page, cart_page, signup_log
     home_page.verify_loaded()
     home_page.header.verify_logged_in()
 
-    product1 = home_page.get_product_info(home_page.PRODUCT_CARDS, 5)
+    product_1 = home_page.get_product_info(home_page.PRODUCT_CARDS, 5)
     home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 5)
 
     home_page.click_modal_continue_shopping()
 
-    product2 = home_page.get_product_info(home_page.PRODUCT_CARDS, 6)
+    product_2 = home_page.get_product_info(home_page.PRODUCT_CARDS, 6)
     home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 6)
 
     home_page.click_modal_view_cart()

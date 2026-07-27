@@ -19,3 +19,6 @@ def test_add_to_cart_from_recommended(home_page, cart_page):
     cart_page.verify_loaded()
 
     cart_page.verify_product(0, product)
+
+    cart_page.remove_all_products()
+    cart_page.verify_cart_empty()

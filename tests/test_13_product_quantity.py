@@ -25,3 +25,6 @@ def test_product_quantity(home_page, product_details_page, cart_page):
 
     cart_page.verify_quantity(0, QUANTITY["value"])
     cart_page.verify_product(0, product)
+
+    cart_page.remove_all_products()
+    cart_page.verify_cart_empty()

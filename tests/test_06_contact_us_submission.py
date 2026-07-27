@@ -1,8 +1,10 @@
 import allure
+import pytest
 
 from utils.data_generator import generate_email
 from utils.test_data import UPLOAD_FILE_PATH
 
+@pytest.mark.no_ads_block
 @allure.feature("Contact us form")
 @allure.story("Contact us form")
 @allure.title("Contact us form submission")
@@ -20,9 +22,8 @@ def test_contact_us_form_submission(home_page, contact_us_page):
 
     contact_us_page.fill_contact_us_form(email)
     contact_us_page.upload_file(UPLOAD_FILE_PATH["path"])
-    contact_us_page.accept_dialog()
-    contact_us_page.click_submit()
-
+    contact_us_page.submit_form()
+    
     contact_us_page.verify_success_message_visible()
 
     contact_us_page.click_home()

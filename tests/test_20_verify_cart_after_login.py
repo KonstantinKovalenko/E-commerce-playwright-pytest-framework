@@ -39,5 +39,4 @@ def test_verify_cart_after_login(home_page, products_page, cart_page, signup_log
     cart_page.verify_cart_contents_unchanged(actual_products, expected_products)
 
     cart_page.remove_all_products()
-
     cart_page.verify_cart_empty()
