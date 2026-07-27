@@ -1,60 +1,146 @@
-# Telnyx WebdriverIO Test Automation Framework
+# E-Commerce Playwright + Pytest Automation Framework
 
-[![CI](https://github.com/KonstantinKovalenko/telnyx-webdriverio-framework/actions/workflows/wdio.yml/badge.svg)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/actions/workflows/wdio.yml)  
-Automated end-to-end testing framework 
+Automated end-to-end testing framework for the Automation Exercise website built with **Playwright**, **Pytest**, and **Python**.
 
 ✔ Page Object Model (POM) architecture  
+✔ Reusable Base Page, page objects, and fixtures  
+✔ Dynamic test data generation  
+✔ Environment variables with `.env` and GitHub Secrets  
+✔ Cross-browser execution  
+✔ Parallel test execution  
+✔ Allure reporting with failure screenshots  
+✔ Merged Allure Report with browser-specific results  
+✔ GitHub Actions CI/CD pipeline  
+✔ Automatic report publishing to GitHub Pages  
+✔ Slack notifications with build status and report link
 
+[![CI](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/actions/workflows/playwright.yml)
 
 [![GitHub Pages](https://img.shields.io/badge/View-Latest_Report-blue?logo=github)](https://konstantinkovalenko.github.io/E-commerce-playwright-pytest-framework/)
+
+[![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/slack-notification.png)
 
 ---
 
 ## Test Coverage
 
+- 26 official Automation Exercise test scenarios
+- Chromium and Firefox execution
+- 52 automated test executions per GitHub Actions workflow
+- Merged Allure Report with browser-specific results
+
 ---
 
 ## Continuous Integration
+
+GitHub Actions automatically:
+
+- Installs dependencies and Playwright browsers
+- Executes tests on Chromium and Firefox
+- Merges browser test results into a single Allure Report
+- Publishes reports to GitHub Pages
+- Sends Slack notifications
 
 ---
 
 ## Project Structure
 
+```
+├── .github/ 
+│ └── workflows/ 
+│     └── playwright.yml 
+│
+├── pages/ 
+│   ├── account_life_cycle/ 
+│   ├── components/ 
+│   ├── base_page.py 
+│   └── ... 
+│
+├── tests/ 
+│   ├── test_01_register_user.py 
+│   ├── ... 
+│   └── test_26_scroll_page.py 
+│
+├── utils/ 
+│   ├── data_generator.py 
+│   ├── test_data.py 
+│   └── helpers.py 
+│
+├── uploads/ 
+├── downloads/ 
+├── conftest.py 
+├── pytest.ini 
+├── requirements.txt 
+└── README.md
+```
+
 ---
 
 ## Getting Started
-
-### Prerequisites
-
----
 
 ### Installation
 
 Clone the repository:
 
 ```bash
-git clone
+git clone https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework.git  
 ```
 
-Navigate to the project:
+```
+cd E-commerce-playwright-pytest-framework
+```
+
+Create virtual environment
 
 ```bash
-cd 
+python -m venv .venv
+```
+Activate
+
+```bash
+.venv\Scripts\activate
 ```
 
 Install dependencies:
 
 ```
-npm install
+pip install -r requirements.txt
+```
+
+Install Playwright browsers
+
+```
+python -m playwright install
 ```
 
 ---
 
-### Available Scripts
+### Environment Variables
 
-| Script | Description |
+Create an `.env` file in the project root.
+
+```
+TEST_USER_EMAIL=your_email  
+TEST_USER_PASSWORD=your_password
+```
+
+These credentials are used for login-related test scenarios.
+
+In GitHub Actions the values are provided securely through GitHub Secrets.
+
+---
+
+### Useful Commands
+
+| Command | Description |
 |---------|-------------|
-| `npm run` |  |
+| `pytest` | Run all tests with default configuration |
+| `pytest --browser chromium` | Run all tests in Chromium |
+| `pytest --browser firefox` | Run all tests in Firefox |
+| `pytest -n 2 --browser chromium` | Run Chromium tests in parallel execution |
+| `pytest -n 2 --browser firefox` | Run Firefox tests in parallel execution |
+| `pytest tests/test_01_register_user.py` | Run a single test |
+| `allure open allure-report` | Open the generated Allure Report |
 
 ---
 
@@ -62,7 +148,7 @@ npm install
 
 Konstantin Kovalenko
 
-* GitHub: https://github.com/KonstantinKovalenko  
-* LinkedIn: [www.linkedin.com/in/kostyantyn-kovalenko/](https://www.linkedin.com/in/kostyantyn-kovalenko/)
-* Email: chvyaka.kk@gmail.com
+* GitHub: [KonstantinKovalenko](https://github.com/KonstantinKovalenko)
+* LinkedIn: [Kostyantyn Kovalenko](https://www.linkedin.com/in/kostyantyn-kovalenko/)
 * Telegram: @kovakost
+* Email: chvyaka.kk@gmail.com
