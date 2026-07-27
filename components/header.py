@@ -2,6 +2,8 @@ from playwright.sync_api import Page
 from pages.base_page import BasePage
 
 class Header(BasePage):
+    SITE_HEADER = "#header"
+
     PRODUCTS_BUTTON = 'a[href="/products"]'
     CART_BUTTON = '.shop-menu a[href="/view_cart"]'
     SIGNUP_LOGIN_BUTTON = '.shop-menu a[href="/login"]'
@@ -13,6 +15,12 @@ class Header(BasePage):
 
     def __init__(self, page: Page):
         super().__init__(page)
+
+    def scroll_up_to_header(self):
+        self.scroll_to(
+            self.page.locator(self.SITE_HEADER),
+            "Site header"
+        )
 
     def click_signup_login(self):
         self.click(

@@ -33,7 +33,7 @@ def test_register_while_checkout(home_page, products_page, cart_page, signup_log
     cart_page.click_proceed_to_checkout()
     checkout_page.verify_loaded()
 
-    checkout_page.verify_delivery_address(EXISTING_USER)
+    checkout_page.verify_address(checkout_page.DELIVERY_ADDRESS, EXISTING_USER)
     checkout_page.verify_product(0, product_1)
     checkout_page.verify_product(1, product_2)
     checkout_page.verify_total_amount()

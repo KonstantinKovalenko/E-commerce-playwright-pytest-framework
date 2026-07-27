@@ -131,7 +131,6 @@ class ProductsPage(BasePage):
                 f"{brand} filter"
             )
 
-    
     def verify_multiple_search_results(self):
         count = self.page.locator(self.PRODUCTS_ARRAY).count()
 

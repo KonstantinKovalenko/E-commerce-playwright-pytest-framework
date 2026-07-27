@@ -4,11 +4,11 @@ from utils.data_generator import generate_email
 from utils.test_data import TEST_USER
 
 @allure.feature("Checkout")
-@allure.story("Register before checkout")
-@allure.title("Register user before checkout")
-@allure.description("Verify user can register an account and then complete checkout.")
+@allure.story("Verify address details")
+@allure.title("Verify delivery and billing address")
+@allure.description("Verify delivery and billing address match entered data during registration.")
 
-def test_register_before_checkout(home_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page, registration_page, account_created_page, delete_account_page):
+def test_address_details(home_page, cart_page, signup_login_page, checkout_page, registration_page, account_created_page, delete_account_page):
     home_page.open()
     home_page.verify_loaded()
 
@@ -29,8 +29,8 @@ def test_register_before_checkout(home_page, cart_page, signup_login_page, check
 
     home_page.header.verify_logged_in()
   
-    product = home_page.get_product_info(home_page.PRODUCT_CARDS, 9)
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 9)
+    product = home_page.get_product_info(home_page.PRODUCT_CARDS, 12)
+    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 12)
     
     home_page.click_modal_view_cart()
     cart_page.verify_loaded()
@@ -39,17 +39,7 @@ def test_register_before_checkout(home_page, cart_page, signup_login_page, check
     checkout_page.verify_loaded()
 
     checkout_page.verify_address(checkout_page.DELIVERY_ADDRESS, TEST_USER)
-    checkout_page.verify_product(0, product)
-    checkout_page.verify_total_amount()
-
-    checkout_page.add_comment()
-    checkout_page.click_place_order()
-    payment_page.verify_loaded()
-
-    payment_page.fill_card_information()
-    payment_page.click_pay_and_confirm_order()
-
-    payment_done_page.verify_success()
+    checkout_page.verify_address(checkout_page.BILLING_ADDRESS, TEST_USER)
 
     home_page.header.click_delete_account()
 

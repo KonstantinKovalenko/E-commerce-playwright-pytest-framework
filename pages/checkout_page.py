@@ -13,6 +13,7 @@ class CheckoutPage(BasePage):
     ITEM_TOTAL_PRICE = ".cart_total p"
 
     DELIVERY_ADDRESS = "#address_delivery"
+    BILLING_ADDRESS = "#address_invoice"
     COMMENT_TEXT_AREA = ".form-control"
     PLACE_ORDER_BUTTON = 'a[href="/payment"]'
     TOTAL_PRICES = ".cart_total_price"
@@ -51,13 +52,14 @@ class CheckoutPage(BasePage):
                 f"Rs. {expected_total}"
             )
 
-    def verify_delivery_address(self, user: dict):
-        address = self.page.locator(self.DELIVERY_ADDRESS)
-        self.verify_text_contains(address, f'{user["first_name"]} {user["last_name"]}')
-        self.verify_text_contains(address, user["address"])
-        self.verify_text_contains(address, f'{user["city"]} {user["state"]} {user["zipcode"]}')
-        self.verify_text_contains(address, user["country"])
-        self.verify_text_contains(address, user["mobile"])
+    def verify_address(self, locator: str, user: dict):
+        with allure.step(f"Verify address: {locator}"):
+            address = self.page.locator(locator)
+            self.verify_text_contains(address, f'{user["first_name"]} {user["last_name"]}')
+            self.verify_text_contains(address, user["address"])
+            self.verify_text_contains(address, f'{user["city"]} {user["state"]} {user["zipcode"]}')
+            self.verify_text_contains(address, user["country"])
+            self.verify_text_contains(address, user["mobile"])
 
     def add_comment(self):
         self.fill(self.page.locator(self.COMMENT_TEXT_AREA), CONTACT_US["message"], "Comment")

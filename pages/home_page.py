@@ -15,6 +15,7 @@ class HomePage(BasePage):
     MODAL_CONTINUE_SHOPPING_BUTTON = ".modal-footer button"
     MODAL_VIEW_CART_BUTTON = '.modal-body a[href="/view_cart"]'
     ADD_TO_CART_BUTTON = ".features_items .productinfo a"
+    SCROLL_UP_BUTTON = "#scrollUp"
 
     CATEGORIES_SECTION = "#accordian"
 
@@ -28,6 +29,8 @@ class HomePage(BasePage):
     RECOMMENDED_ITEMS = ".recommended_items .productinfo"
     RECOMMENDED_ADD_TO_CART_BUTTON = ".recommended_items .productinfo a"
 
+    SLIDE_CAROUSEL_TITLES = "#slider-carousel .carousel-inner h2"
+
     def __init__(self, page):
         super().__init__(page)
         self.header = Header(page)
@@ -35,6 +38,9 @@ class HomePage(BasePage):
 
     def verify_loaded(self):
         self.verify_title("Automation Exercise")
+
+    def verify_carousel_title_visible(self):
+        self.verify_text(self.page.locator(self.SLIDE_CAROUSEL_TITLES).first, "Full-Fledged practice website for Automation Engineers")
 
     def verify_categories_visible(self):
         self.verify_visible(
@@ -52,6 +58,12 @@ class HomePage(BasePage):
         self.click(
             self.page.locator(self.VIEW_PRODUCT).nth(index),
             f"#{index + 1} product's View Product" 
+        )
+
+    def click_scroll_up(self):
+        self.click(
+            self.page.locator(self.SCROLL_UP_BUTTON),
+            "Scroll Up arrow button" 
         )
 
     def get_product_info(self, locator: str, index: int):
