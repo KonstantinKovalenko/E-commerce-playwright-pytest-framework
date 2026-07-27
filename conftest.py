@@ -32,6 +32,10 @@ def browser_context_args(browser_context_args):
 def base_url():
     return BASE_URL
 
+@pytest.fixture(autouse=True)
+def browser_label(browser_name):
+    allure.dynamic.parameter("Browser", browser_name)
+
 @pytest.fixture(scope="function")
 def home_page(page):
     return HomePage(page)
