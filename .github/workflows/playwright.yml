@@ -41,11 +41,13 @@ jobs:
           python -m playwright install --with-deps
 
       - name: Run tests
+        id: tests
+        continue-on-error: true
         env:
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
         run: |
-          pytest
+          pytest -n 2
 
       - name: Upload Allure Results
         if: always()
@@ -85,3 +87,7 @@ jobs:
         if: always()
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Fail workflow if tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
