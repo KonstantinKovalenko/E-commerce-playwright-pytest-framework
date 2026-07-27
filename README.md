@@ -18,7 +18,7 @@ Automated end-to-end testing framework for the Automation Exercise website built
 
 [![GitHub Pages](https://img.shields.io/badge/View-Latest_Report-blue?logo=github)](https://konstantinkovalenko.github.io/E-commerce-playwright-pytest-framework/)
 
-[![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/slack-notification.png)
+[![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/slack-notifications.png)
 
 ---
 
