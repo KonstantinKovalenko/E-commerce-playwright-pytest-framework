@@ -1,6 +1,6 @@
 # E-Commerce Playwright + Pytest Automation Framework
 
-Automated end-to-end testing framework for the Automation Exercise website built with **Playwright**, **Pytest**, and **Python**.
+Automated end-to-end testing framework for the Automation Exercise website built with **Playwright**, **Pytest**, and **Python**.  
 
 ✔ Page Object Model (POM) with separated locator classes   
 ✔ Reusable Base Page, page objects, and fixtures  
@@ -19,6 +19,8 @@ Automated end-to-end testing framework for the Automation Exercise website built
 [![GitHub Pages](https://img.shields.io/badge/View-Latest_Report-blue?logo=github)](https://konstantinkovalenko.github.io/E-commerce-playwright-pytest-framework/)
 
 [![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/screenshots/slack-notifications.png)
+
+Test target: [https://automationexercise.com/](https://automationexercise.com/)
 
 ---
 
@@ -78,9 +80,10 @@ GitHub Actions automatically:
 │   └── test_26_scroll_page.py 
 │
 ├── utils/ 
-│   ├── data_generator.py 
-│   ├── test_data.py 
-│   └── helpers.py 
+│   ├── test_data/
+│   │   ├── users.py    
+│   │   └── ...
+│   └── data_generator.py  
 │
 ├── conftest.py 
 ├── pytest.ini 
@@ -153,9 +156,11 @@ In GitHub Actions the values are provided securely through GitHub Secrets.
 | `pytest --browser firefox` | Run all tests in Firefox |
 | `pytest -n 2 --browser chromium` | Run Chromium tests in parallel execution |
 | `pytest -n 2 --browser firefox` | Run Firefox tests in parallel execution |
-| `pytest tests/test_01_register_user.py` | Run a single test |
+| `pytest tests/test_21_add_review.py` | Run a single test |
 | `allure open allure-report` | Open the generated Allure Report |
 
+
+> **Note:** This project uses the free public Automation Exercise environment, so occasional slow responses or temporary server instability may affect test execution.
 ---
 
 ## Author
