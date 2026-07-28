@@ -1,0 +1,37 @@
+import allure
+
+from utils.data_generator import generate_email
+from utils.test_data.users import TEST_USER
+
+@allure.feature("User Account")
+@allure.story("Registration")
+@allure.title("Register and delete user account")
+@allure.description("Verify that a new user can register, create an account and delete the account successfully.")
+
+def test_register_and_delete_user_account(app):
+    app.home.open()
+    app.home.verify_loaded()
+
+    app.header.click_signup_login()
+
+    app.signup.verify_new_user_signup_visible()
+
+    email = generate_email()
+  
+    app.signup.signup(TEST_USER["name"], email)
+
+    app.registration.verify_loaded()
+
+    app.registration.fill_account_information(TEST_USER["password"])
+    app.registration.fill_address_information()
+    app.registration.click_create_account()
+
+    app.account_created.verify_loaded()
+    app.account_created.click_continue()
+
+    app.header.verify_logged_in()
+
+    app.header.click_delete_account()
+
+    app.delete_account.verify_loaded()
+    app.delete_account.click_continue()

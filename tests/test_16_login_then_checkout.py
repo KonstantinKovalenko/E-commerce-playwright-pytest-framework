@@ -1,52 +1,53 @@
 import allure
 
 from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
-from utils.test_data import EXISTING_USER
-
+from utils.test_data.users import EXISTING_USER
+from pages.locators.home_locators import HomeLocators as h_L
+from pages.locators.checkout.checkout_locators import CheckoutLocators as c_L
 @allure.feature("Checkout")
-@allure.story("Login and checkout")
+@allure.story("Payment")
 @allure.title("Login and then checkout")
 @allure.description("Verify user can login and then successfully complete checkout.")
 
-def test_login_then_checkout(home_page, products_page, cart_page, signup_login_page, checkout_page, payment_page, payment_done_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_login_then_checkout(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_signup_login()
+    app.header.click_signup_login()
 
-    signup_login_page.verify_login_to_account_visible()
-    signup_login_page.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
-    home_page.verify_loaded()
-    home_page.header.verify_logged_in()
+    app.signup.verify_login_to_account_visible()
+    app.signup.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
+    app.home.verify_loaded()
+    app.header.verify_logged_in()
 
-    product_1 = home_page.get_product_info(home_page.PRODUCT_CARDS, 5)
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 5)
+    product_1 = app.home.get_product_info(h_L.PRODUCT_CARDS, 5)
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 5)
 
-    home_page.click_modal_continue_shopping()
+    app.home.click_modal_continue_shopping()
 
-    product_2 = home_page.get_product_info(home_page.PRODUCT_CARDS, 6)
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 6)
+    product_2 = app.home.get_product_info(h_L.PRODUCT_CARDS, 6)
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 6)
 
-    home_page.click_modal_view_cart()
-    cart_page.verify_loaded()
+    app.home.click_modal_view_cart()
+    app.cart.verify_loaded()
 
-    cart_page.click_proceed_to_checkout()
-    checkout_page.verify_loaded()
+    app.cart.click_proceed_to_checkout()
+    app.checkout.verify_loaded()
 
-    checkout_page.verify_address(checkout_page.DELIVERY_ADDRESS, EXISTING_USER)
-    checkout_page.verify_product(0, product_1)
-    checkout_page.verify_product(1, product_2)
-    checkout_page.verify_total_amount()
+    app.checkout.verify_address(c_L.DELIVERY_ADDRESS, EXISTING_USER)
+    app.checkout.verify_product(0, product_1)
+    app.checkout.verify_product(1, product_2)
+    app.checkout.verify_total_amount()
 
-    checkout_page.add_comment()
-    checkout_page.click_place_order()
-    payment_page.verify_loaded()
+    app.checkout.add_comment()
+    app.checkout.click_place_order()
+    app.payment.verify_loaded()
 
-    payment_page.fill_card_information()
-    payment_page.click_pay_and_confirm_order()
+    app.payment.fill_card_information()
+    app.payment.click_pay_and_confirm_order()
 
-    payment_done_page.verify_success()
+    app.payment_done.verify_success()
 
-    home_page.header.click_logout()
+    app.header.click_logout()
 
-    signup_login_page.verify_loaded()
+    app.signup.verify_loaded()

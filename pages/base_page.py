@@ -25,7 +25,7 @@ class BasePage:
         with allure.step(f'Fill "{name}" with "{display_value}"'):
             locator.fill(value)
 
-    def type(self, locator: Locator, value: str, name: str):
+    def type_text(self, locator: Locator, value: str, name: str):
         with allure.step(f'Type "{value}" into "{name}"'):
             locator.press_sequentially(value)
 

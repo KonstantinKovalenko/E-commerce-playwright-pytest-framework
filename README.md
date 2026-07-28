@@ -2,7 +2,7 @@
 
 Automated end-to-end testing framework for the Automation Exercise website built with **Playwright**, **Pytest**, and **Python**.
 
-✔ Page Object Model (POM) architecture  
+✔ Page Object Model (POM) with separated locator classes   
 ✔ Reusable Base Page, page objects, and fixtures  
 ✔ Dynamic test data generation  
 ✔ Environment variables with `.env` and GitHub Secrets  
@@ -18,7 +18,7 @@ Automated end-to-end testing framework for the Automation Exercise website built
 
 [![GitHub Pages](https://img.shields.io/badge/View-Latest_Report-blue?logo=github)](https://konstantinkovalenko.github.io/E-commerce-playwright-pytest-framework/)
 
-[![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/slack-notifications.png)
+[![GitHub Slack Notification](https://img.shields.io/badge/GitHub-View_Slack_Notification-181717?logo=github&logoColor=white)](https://github.com/KonstantinKovalenko/E-commerce-playwright-pytest-framework/blob/main/assets/screenshots/slack-notifications.png)
 
 ---
 
@@ -50,14 +50,30 @@ GitHub Actions automatically:
 │ └── workflows/ 
 │     └── playwright.yml 
 │
+├── assets/
+│   ├── downloads/ 
+│   ├── uploads/ 
+│   └── screenshots/ 
+
+│
+├── config/
+│   └── settings.py  
+│
 ├── pages/ 
-│   ├── account_life_cycle/ 
+│   ├── account/ 
+│   ├── checkout/ 
+│   ├── products/  
 │   ├── components/ 
+│   ├── locators/ 
+│   │   ├── account/  
+│   │   ├── checkout/  
+│   │   ├── products/  
+│   │   └── components/
 │   ├── base_page.py 
 │   └── ... 
 │
 ├── tests/ 
-│   ├── test_01_register_user.py 
+│   ├── test_01_register_and_delete_account.py 
 │   ├── ... 
 │   └── test_26_scroll_page.py 
 │
@@ -66,8 +82,6 @@ GitHub Actions automatically:
 │   ├── test_data.py 
 │   └── helpers.py 
 │
-├── uploads/ 
-├── downloads/ 
 ├── conftest.py 
 ├── pytest.ini 
 ├── requirements.txt 

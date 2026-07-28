@@ -1,26 +1,26 @@
 import allure
 
-from utils.test_data import BRANDS
+from utils.test_data.products import BRANDS
 
-@allure.feature("Categories")
-@allure.story("Products categories")
+@allure.feature("Products")
+@allure.story("Brands")
 @allure.title("Filter products by brands")
 @allure.description("Verify products can be sorted by brands.")
 
-def test_view_brand_products(home_page, products_page, brand_products_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_view_brand_products(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_products()
-    products_page.verify_loaded()
+    app.header.click_products()
+    app.products.verify_loaded()
 
-    products_page.verify_brands_visible()
+    app.products.verify_brands_visible()
 
-    products_page.filter_by_brand(BRANDS["polo"])
-    brand_products_page.verify_loaded()
-    brand_products_page.verify_filtered_title(BRANDS["polo"])
-    brand_products_page.verify_products_exist()
+    app.products.filter_by_brand(BRANDS["polo"])
+    app.brand_products.verify_loaded()
+    app.brand_products.verify_filtered_title(BRANDS["polo"])
+    app.brand_products.verify_products_exist()
 
-    brand_products_page.filter_by_brand(BRANDS["kookie_kids"])
-    brand_products_page.verify_filtered_title(BRANDS["kookie_kids"])
-    brand_products_page.verify_products_exist()
+    app.brand_products.filter_by_brand(BRANDS["kookie_kids"])
+    app.brand_products.verify_filtered_title(BRANDS["kookie_kids"])
+    app.brand_products.verify_products_exist()

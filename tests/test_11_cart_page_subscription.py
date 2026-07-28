@@ -2,24 +2,23 @@ import allure
 
 from utils.data_generator import generate_email
 
-@allure.feature("Subscription")
-@allure.story("Subscription")
+@allure.feature("Subscript")
+@allure.story("Cart page subscription")
 @allure.title("Cart page footer subscription")
 @allure.description("Verify user can subscript on the footer of the cart page.")
 
-def test_cart_page_footer_subscription(home_page, cart_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_cart_page_footer_subscription(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_cart()
+    app.header.click_cart()
 
-    cart_page.verify_loaded()
+    app.cart.verify_loaded()
 
-    cart_page.footer.scroll_down_to_footer()
-    
-    cart_page.footer.verify_subscription_visible()
+    app.footer.scroll_down_to_footer()
+    app.footer.verify_subscription_visible()
 
     email = generate_email()
-    cart_page.footer.subscribe(email)
+    app.footer.subscribe(email)
 
-    cart_page.footer.verify_subscribe_success_visible()
+    app.footer.verify_subscribe_success_visible()

@@ -1,42 +1,42 @@
 import allure
 
-from utils.test_data import SEARCH
 from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
+from utils.test_data.products import SEARCH
 
 @allure.feature("Cart")
-@allure.story("Verify cart after login")
+@allure.story("Persistence")
 @allure.title("Verify cart after user login")
 @allure.description("Verify cart do not change after user login.")
 
-def test_verify_cart_after_login(home_page, products_page, cart_page, signup_login_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_verify_cart_after_login(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_products()
-    products_page.verify_loaded()
+    app.header.click_products()
+    app.products.verify_loaded()
 
-    products_page.search_by_product_name(SEARCH["jeans"])
-    products_page.verify_multiple_search_results()
+    app.products.search_by_product_name(SEARCH["jeans"])
+    app.products.verify_multiple_search_results()
 
-    products_page.add_results_to_cart()
+    app.products.add_results_to_cart()
 
-    home_page.header.click_cart()
-    cart_page.verify_loaded()
+    app.header.click_cart()
+    app.cart.verify_loaded()
 
-    expected_products = cart_page.get_cart_products()
+    expected_products = app.cart.get_cart_products()
 
-    home_page.header.click_signup_login()
-    signup_login_page.verify_login_to_account_visible()
-    signup_login_page.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
-    home_page.verify_loaded()
-    home_page.header.verify_logged_in()
+    app.header.click_signup_login()
+    app.signup.verify_login_to_account_visible()
+    app.signup.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
+    app.home.verify_loaded()
+    app.header.verify_logged_in()
 
-    home_page.header.click_cart()
-    cart_page.verify_loaded()
+    app.header.click_cart()
+    app.cart.verify_loaded()
 
-    actual_products = cart_page.get_cart_products()
+    actual_products = app.cart.get_cart_products()
 
-    cart_page.verify_cart_contents_unchanged(actual_products, expected_products)
+    app.cart.verify_cart_contents_unchanged(actual_products, expected_products)
 
-    cart_page.remove_all_products()
-    cart_page.verify_cart_empty()
+    app.cart.remove_all_products()
+    app.cart.verify_cart_empty()

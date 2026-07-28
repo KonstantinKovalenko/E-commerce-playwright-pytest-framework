@@ -1,15 +1,15 @@
 import allure
 
-@allure.feature("Test Cases")
+@allure.feature("Navigation")
 @allure.story("Test Cases page")
-@allure.title("Test Cases page navigation")
-@allure.description("Verify Test Cases page navigation.")
+@allure.title("Navigate to Test Cases page")
+@allure.description("Verify user can navigate to Test Cases page via header button.")
 
-def test_navigate_to_test_cases_page(home_page, test_cases_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_navigate_to_test_cases_page(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_test_cases()
+    app.header.click_test_cases()
 
-    test_cases_page.verify_loaded()
-    test_cases_page.verify_test_cases_visible()
+    app.test_cases.verify_loaded()
+    app.test_cases.verify_test_cases_visible()

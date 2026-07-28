@@ -2,29 +2,29 @@ import allure
 import pytest
 
 from utils.data_generator import generate_email
-from utils.test_data import UPLOAD_FILE_PATH
+from utils.test_data.contact import UPLOAD_FILE_PATH
 
 @pytest.mark.no_ads_block
-@allure.feature("Contact us form")
+@allure.feature("Submit form")
 @allure.story("Contact us form")
 @allure.title("Contact us form submission")
 @allure.description("Verify contact us form can be filled and successfully submit.")
 
-def test_contact_us_form_submission(home_page, contact_us_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_contact_us_form_submission(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_contact_us()
+    app.header.click_contact_us()
 
-    contact_us_page.verify_get_in_touch_visible()
+    app.contact_us.verify_get_in_touch_visible()
 
     email = generate_email()
 
-    contact_us_page.fill_contact_us_form(email)
-    contact_us_page.upload_file(UPLOAD_FILE_PATH["path"])
-    contact_us_page.submit_form()
+    app.contact_us.fill_contact_us_form(email)
+    app.contact_us.upload_file(UPLOAD_FILE_PATH["path"])
+    app.contact_us.submit_form()
     
-    contact_us_page.verify_success_message_visible()
+    app.contact_us.verify_success_message_visible()
 
-    contact_us_page.click_home()
-    home_page.verify_loaded()
+    app.contact_us.click_home()
+    app.home.verify_loaded()

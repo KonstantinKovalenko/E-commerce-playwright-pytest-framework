@@ -1,28 +1,30 @@
 import allure
 
+from pages.locators.home_locators import HomeLocators as h_L
+
 @allure.feature("Cart")
-@allure.story("Remove from cart")
+@allure.story("Remove products")
 @allure.title("Remove products from cart")
 @allure.description("Verify products can be removed from cart.")
 
-def test_remove_products_from_cart(home_page, cart_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_remove_products_from_cart(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 18)
-    home_page.click_modal_continue_shopping()
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 18)
+    app.home.click_modal_continue_shopping()
 
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 19)
-    home_page.click_modal_continue_shopping()
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 19)
+    app.home.click_modal_continue_shopping()
 
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 20)
-    home_page.click_modal_continue_shopping()
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 20)
+    app.home.click_modal_continue_shopping()
 
-    home_page.add_product_to_cart(home_page.ADD_TO_CART_BUTTON, 21)
-    home_page.click_modal_view_cart()
+    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 21)
+    app.home.click_modal_view_cart()
 
-    cart_page.verify_loaded()
+    app.cart.verify_loaded()
 
-    cart_page.remove_all_products()
+    app.cart.remove_all_products()
 
-    cart_page.verify_cart_empty()
+    app.cart.verify_cart_empty()

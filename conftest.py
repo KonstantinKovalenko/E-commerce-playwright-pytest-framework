@@ -2,21 +2,8 @@ import allure
 import pytest
 
 from config.settings import BASE_URL
-from pages.home_page import HomePage
-from pages.signup_login_page import SignupLoginPage
-from pages.account_life_cycle.registration_page import RegistrationPage
-from pages.account_life_cycle.account_created_page import AccountCreatedPage
-from pages.account_life_cycle.delete_account_page import DeleteAccountPage
-from pages.contact_us_page import ContactUsPage
-from pages.test_cases_page import TestCasesPage
-from pages.products_page import ProductsPage
-from pages.product_details_page import ProductDetailsPage
-from pages.cart_page import CartPage
-from pages.checkout_page import CheckoutPage
-from pages.payment_page import PaymentPage
-from pages.payment_done_page import PaymentDonePage
-from pages.category_products_page import CategoryProductsPage
-from pages.brand_products_page import BrandProductsPage
+
+from pages.page_manager import PageManager
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
@@ -32,65 +19,9 @@ def browser_context_args(browser_context_args):
 def base_url():
     return BASE_URL
 
-@pytest.fixture(scope="function")
-def home_page(page):
-    return HomePage(page)
-
-@pytest.fixture(scope="function")
-def signup_login_page(page):
-    return SignupLoginPage(page)
-
-@pytest.fixture(scope="function")
-def registration_page(page):
-    return RegistrationPage(page)
-
-@pytest.fixture(scope="function")
-def account_created_page(page):
-    return AccountCreatedPage(page)
-
-@pytest.fixture(scope="function")
-def delete_account_page(page):
-    return DeleteAccountPage(page)
-
-@pytest.fixture(scope="function")
-def contact_us_page(page):
-    return ContactUsPage(page)
-
-@pytest.fixture(scope="function")
-def test_cases_page(page):
-    return TestCasesPage(page)
-
-@pytest.fixture(scope="function")
-def products_page(page):
-    return ProductsPage(page)
-
-@pytest.fixture(scope="function")
-def product_details_page(page):
-    return ProductDetailsPage(page)
-
-@pytest.fixture(scope="function")
-def cart_page(page):
-    return CartPage(page)
-
-@pytest.fixture(scope="function")
-def checkout_page(page):
-    return CheckoutPage(page)
-
-@pytest.fixture(scope="function")
-def payment_page(page):
-    return PaymentPage(page)
-
-@pytest.fixture(scope="function")
-def payment_done_page(page):
-    return PaymentDonePage(page)
-
-@pytest.fixture(scope="function")
-def category_products_page(page):
-    return CategoryProductsPage(page)
-
-@pytest.fixture(scope="function")
-def brand_products_page(page):
-    return BrandProductsPage(page)
+@pytest.fixture
+def app(page):
+    return PageManager(page)
 
 # ----------------------------
 # Allure screenshot on failure

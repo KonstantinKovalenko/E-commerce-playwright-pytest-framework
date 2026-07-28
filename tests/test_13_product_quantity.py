@@ -1,30 +1,31 @@
 import allure
 
-from utils.test_data import QUANTITY
+from utils.test_data.products import QUANTITY
+from pages.locators.home_locators import HomeLocators as h_L
 
 @allure.feature("Cart")
-@allure.story("Product quantity")
+@allure.story("Quantity")
 @allure.title("Product quantity in cart")
 @allure.description("Verify product quantity in cart.")
 
-def test_product_quantity(home_page, product_details_page, cart_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_product_quantity(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    product = home_page.get_product_info(home_page.PRODUCT_CARDS, 2)
-    home_page.click_view_product(2)
+    product = app.home.get_product_info(h_L.PRODUCT_CARDS, 2)
+    app.home.click_view_product(2)
 
-    product_details_page.verify_loaded()
+    app.product_details.verify_loaded()
 
-    product_details_page.set_quantity(QUANTITY["value"])
+    app.product_details.set_quantity(QUANTITY["value"])
 
-    product_details_page.click_add_to_cart()
-    product_details_page.click_modal_view_cart()
+    app.product_details.click_add_to_cart()
+    app.product_details.click_modal_view_cart()
 
-    cart_page.verify_loaded()
+    app.cart.verify_loaded()
 
-    cart_page.verify_quantity(0, QUANTITY["value"])
-    cart_page.verify_product(0, product)
+    app.cart.verify_quantity(0, QUANTITY["value"])
+    app.cart.verify_product(0, product)
 
-    cart_page.remove_all_products()
-    cart_page.verify_cart_empty()
+    app.cart.remove_all_products()
+    app.cart.verify_cart_empty()

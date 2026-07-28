@@ -3,26 +3,24 @@ import allure
 from utils.data_generator import generate_email
 
 @allure.feature("Products")
-@allure.story("Products review")
+@allure.story("Review")
 @allure.title("Add review on product")
 @allure.description("Verify user can add review on product.")
 
-def test_add_review(home_page, products_page, product_details_page):
-    home_page.open()
-    home_page.verify_loaded()
+def test_add_review(app):
+    app.home.open()
+    app.home.verify_loaded()
 
-    home_page.header.click_products()
-    products_page.verify_loaded()
+    app.header.click_products()
+    app.products.verify_loaded()
 
-    products_page.click_first_view_product()
+    app.products.click_first_view_product()
+    app.product_details.verify_loaded()
 
-    product_details_page.verify_loaded()
-
-    product_details_page.verify_review_title_visible()
+    app.product_details.verify_review_title_visible()
 
     email = generate_email()
+    app.product_details.fill_review_form(email)
+    app.product_details.click_submit_review()
 
-    product_details_page.fill_review_form(email)
-    product_details_page.click_submit_review()
-
-    product_details_page.verify_submit_success()
+    app.product_details.verify_submit_success()
