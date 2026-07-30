@@ -1,47 +1,75 @@
 from pages.base_page import BasePage
 from utils.test_data.products import REVIEW
-from pages.locators.products.product_details_locators import ProductDetailsLocators as L
 
 class ProductDetailsPage(BasePage):
+    
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.product_information = page.locator(".product-information")
+        self.title_review = page.get_by_role("link", name="Write Your Review")
+
+        self.product_info = page.locator(".product-information")
+
+        self.product_name = self.product_info.locator("h2")
+        self.category = self.product_info.get_by_text("Category:")
+        self.price = self.product_info.locator("span > span")
+        self.availability = self.product_info.get_by_text("Availability:")
+        self.condition = self.product_info.get_by_text("Condition:")
+        self.brand = self.product_info.get_by_text("Brand:")
+
+        self.input_quantity = page.locator('#quantity')
+
+        self.button_add_to_cart = page.get_by_role("button", name="Add to cart")
+        self.button_modal_view_cart = page.locator(".modal-body").get_by_role("link", name="View Cart")
+
+        self.input_name = page.locator('#name')
+        self.input_email = page.locator('#email')
+        self.input_review = page.locator('#review')
+
+        self.button_submit_review = page.get_by_role("button", name="Submit")
+
+        self.review_success_message = page.locator(".alert-success").get_by_text("Thank you for your review.")
+
     def verify_loaded(self):
         self.verify_title("Automation Exercise - Product Details")
 
     def click_add_to_cart(self):
         self.click(
-            self.page.locator(L.BUTTON_ADD_TO_CART),
+            self.button_add_to_cart,
             "Add to cart"
         )
 
     def click_modal_view_cart(self):
         self.click(
-            self.page.locator(L.BUTTON_MODAL_VIEW_CART),
+            self.button_modal_view_cart,
             "View cart"
         )
 
     def click_submit_review(self):
         self.click(
-            self.page.locator(L.BUTTON_SUBMIT_REVIEW),
+            self.button_submit_review,
             "Submit"
         )
 
     def verify_product_details_visible(self):
-        self.verify_visible(self.page.locator(L.PRODUCT_NAME), "Product name")
-        self.verify_text_contains(self.page.locator(L.CATEGORY), "Category:")
-        self.verify_text_contains(self.page.locator(L.PRICE), "Rs.")
-        self.verify_text_contains(self.page.locator(L.AVAILABILITY), "Availability:")
-        self.verify_text_contains(self.page.locator(L.CONDITION), "Condition:")
-        self.verify_text_contains(self.page.locator(L.BRAND), "Brand:")
+        self.verify_visible(self.product_name, "Product name")
+        self.verify_text_contains(self.category, "Category:")
+        self.verify_text_contains(self.price, "Rs.")
+        self.verify_text_contains(self.availability, "Availability:")
+        self.verify_text_contains(self.condition, "Condition:")
+        self.verify_text_contains(self.brand, "Brand:")
 
     def verify_review_title_visible(self):
-        self.verify_visible(self.page.locator(L.TITLE_REVIEW), "Write Your Review")
+        self.verify_visible(self.title_review, "Write Your Review")
 
     def verify_submit_success(self):
-        self.verify_text(self.page.locator(L.REVIEW_SUCCESS_MESSAGE), "Thank you for your review.")
+        self.verify_text(self.review_success_message, "Thank you for your review.")
 
     def set_quantity(self, quantity: int):
-        self.fill(self.page.locator(L.INPUT_QUANTITY), str(quantity), "Quantity")
+        self.fill(self.input_quantity, str(quantity), "Quantity")
 
     def fill_review_form(self, email: str):
-        self.fill(self.page.locator(L.INPUT_NAME), REVIEW["name"], "Name")
-        self.fill(self.page.locator(L.INPUT_EMAIL), email, "Email")
-        self.fill(self.page.locator(L.INPUT_REVIEW), REVIEW["message"], "Review")   
+        self.fill(self.input_name, REVIEW["name"], "Name")
+        self.fill(self.input_email, email, "Email")
+        self.fill(self.input_review, REVIEW["message"], "Review")   

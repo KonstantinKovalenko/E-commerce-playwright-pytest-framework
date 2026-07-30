@@ -2,7 +2,6 @@ import allure
 
 from utils.data_generator import generate_email
 from utils.test_data.users import TEST_USER
-from pages.locators.checkout.checkout_locators import CheckoutLocators as c_L
 
 @allure.feature("Checkout")
 @allure.story("Guest checkout")
@@ -47,7 +46,7 @@ def test_register_while_checkout(app):
     app.cart.click_proceed_to_checkout()
     app.checkout.verify_loaded()
 
-    app.checkout.verify_address(c_L.DELIVERY_ADDRESS, TEST_USER)
+    app.checkout.verify_address(app.checkout.delivery_address, TEST_USER)
     app.checkout.verify_product(0, product)
     app.checkout.verify_total_amount()
 

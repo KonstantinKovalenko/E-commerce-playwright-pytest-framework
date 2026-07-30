@@ -1,7 +1,6 @@
 import allure
 
 from utils.test_data.products import QUANTITY
-from pages.locators.home_locators import HomeLocators as h_L
 
 @allure.feature("Cart")
 @allure.story("Quantity")
@@ -12,7 +11,7 @@ def test_product_quantity(app):
     app.home.open()
     app.home.verify_loaded()
 
-    product = app.home.get_product_info(h_L.PRODUCT_CARDS, 2)
+    product = app.home.get_product_info(app.home.product_cards, 2)
     app.home.click_view_product(2)
 
     app.product_details.verify_loaded()

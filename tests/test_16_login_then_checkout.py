@@ -2,8 +2,7 @@ import allure
 
 from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
 from utils.test_data.users import EXISTING_USER
-from pages.locators.home_locators import HomeLocators as h_L
-from pages.locators.checkout.checkout_locators import CheckoutLocators as c_L
+
 @allure.feature("Checkout")
 @allure.story("Payment")
 @allure.title("Login and then checkout")
@@ -20,13 +19,13 @@ def test_login_then_checkout(app):
     app.home.verify_loaded()
     app.header.verify_logged_in()
 
-    product_1 = app.home.get_product_info(h_L.PRODUCT_CARDS, 5)
-    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 5)
+    product_1 = app.home.get_product_info(app.home.product_cards, 5)
+    app.home.add_product_to_cart(app.home.button_add_to_cart, 5)
 
     app.home.click_modal_continue_shopping()
 
-    product_2 = app.home.get_product_info(h_L.PRODUCT_CARDS, 6)
-    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 6)
+    product_2 = app.home.get_product_info(app.home.product_cards, 6)
+    app.home.add_product_to_cart(app.home.button_add_to_cart, 6)
 
     app.home.click_modal_view_cart()
     app.cart.verify_loaded()
@@ -34,7 +33,7 @@ def test_login_then_checkout(app):
     app.cart.click_proceed_to_checkout()
     app.checkout.verify_loaded()
 
-    app.checkout.verify_address(c_L.DELIVERY_ADDRESS, EXISTING_USER)
+    app.checkout.verify_address(app.checkout.delivery_address, EXISTING_USER)
     app.checkout.verify_product(0, product_1)
     app.checkout.verify_product(1, product_2)
     app.checkout.verify_total_amount()

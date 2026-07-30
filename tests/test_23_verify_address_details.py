@@ -2,8 +2,6 @@ import allure
 
 from utils.data_generator import generate_email
 from utils.test_data.users import TEST_USER
-from pages.locators.home_locators import HomeLocators as h_L
-from pages.locators.checkout.checkout_locators import CheckoutLocators as c_L
 
 @allure.feature("Checkout")
 @allure.story("Address verification")
@@ -30,8 +28,8 @@ def test_verify_address_details(app):
 
     app.header.verify_logged_in()
   
-    product = app.home.get_product_info(h_L.PRODUCT_CARDS, 12)
-    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 12)
+    product = app.home.get_product_info(app.home.product_cards, 12)
+    app.home.add_product_to_cart(app.home.button_add_to_cart, 12)
     
     app.home.click_modal_view_cart()
     app.cart.verify_loaded()
@@ -39,8 +37,8 @@ def test_verify_address_details(app):
     app.cart.click_proceed_to_checkout()
     app.checkout.verify_loaded()
 
-    app.checkout.verify_address(c_L.DELIVERY_ADDRESS, TEST_USER)
-    app.checkout.verify_address(c_L.BILLING_ADDRESS, TEST_USER)
+    app.checkout.verify_address(app.checkout.delivery_address, TEST_USER)
+    app.checkout.verify_address(app.checkout.billing_address, TEST_USER)
 
     app.header.click_delete_account()
 

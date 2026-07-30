@@ -1,30 +1,54 @@
 import allure
+import re
 
 from pages.base_page import BasePage
-from pages.locators.products.category_products_locators import CategoryProductsLocators as L
+from utils.test_data.products import CATEGORIES
 
 class CategoryProductsPage(BasePage):
+    PATH = "/category_products"
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.products_list = page.locator(".features_items")
+        self.title_filtered_products = page.locator(".features_items > h2")
+
+        self.category_women = page.get_by_role("link", name=re.compile("Women"))
+        self.category_men = page.get_by_role("link", name=re.compile("Men"))
+        self.category_kids = page.locator("#accordian").get_by_role("link", name=re.compile("Kids"))
+        self.categories = {
+            CATEGORIES["women"]: self.category_women,
+            CATEGORIES["men"]: self.category_men,
+            CATEGORIES["kids"]: self.category_kids,
+        }
+        self.women_items = page.locator("#Women li")
+        self.men_items = page.locator("#Men li")
+        self.kids_items = page.locator("#Kids li")
+        self.subcategories = {
+            CATEGORIES["women"]: self.women_items,
+            CATEGORIES["men"]: self.men_items,
+            CATEGORIES["kids"]: self.kids_items,
+        }
+
     def verify_loaded(self):
-        self.verify_url_contains(L.PATH)
+        self.verify_url_contains(self.PATH)
 
     def verify_filtered_title(self, expected_category, expected_filter: str):
         self.verify_text(
-            self.page.locator(L.TITLE_FILTERED_PRODUCTS),
+            self.title_filtered_products,
             f'{expected_category} - {expected_filter} Products'
         )
 
-    def select_category(self, category: str, filter: str):
-        with allure.step(f'Select category: "{category}" > "{filter}"'):
-            category_button, category_list = L.CATEGORY_BUTTONS[category]
-
+    def select_category(self, category: str, subcategory: str):
+        with allure.step(f'Select category: "{category}" > "{subcategory}"'):
             self.click(
-                self.page.locator(category_button),
+                self.categories[category],
                 f"{category} category"
             )
 
             self.click(
-                self.page.locator(category_list)
-                    .filter(has_text=filter)
+                self.subcategories[category]
+                    .filter(has_text=subcategory)
                     .locator("a"),
-                f"{filter} filter"
+                f"{subcategory} filter"
             )

@@ -1,7 +1,5 @@
 import allure
 
-from pages.locators.home_locators import HomeLocators as h_L
-
 @allure.feature("Cart")
 @allure.story("Recommended products")
 @allure.title("Add to cart from recommended")
@@ -14,8 +12,8 @@ def test_add_to_cart_from_recommended(app):
     app.home.scroll_down_to_recommended()
     app.home.verify_recommended_visible()
 
-    product = app.home.get_product_info(h_L.RECOMMENDED_ITEMS, 3)
-    app.home.add_product_to_cart(h_L.BUTTON_RECOMMENDED_ADD_TO_CART, 3)
+    product = app.home.get_product_info(app.home.recommended_items, 3)
+    app.home.add_product_to_cart(app.home.button_recommended_add_to_cart, 3)
 
     app.home.click_modal_view_cart()
     app.cart.verify_loaded()

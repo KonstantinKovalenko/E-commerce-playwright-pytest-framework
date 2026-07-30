@@ -2,24 +2,31 @@ import allure
 
 from pages.base_page import BasePage
 from pathlib import Path
-from pages.locators.checkout.payment_done_locators import PaymentDoneLocators as L
 
 class PaymentDonePage(BasePage):
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.success_message = page.locator('#form p')
+        self.button_continue = page.locator('[data-qa="continue-button"]')
+        self.button_download_invoice = page.locator('.check_out')
+
     def verify_success(self):
         self.verify_text(
-            self.page.locator(L.SUCCESS_MESSAGE),
+            self.success_message,
             "Congratulations! Your order has been confirmed!"
         )
 
     def click_continue(self):
         self.click(
-            self.page.locator(L.BUTTON_CONTINUE),
+            self.button_continue,
             "Continue"
         )
 
     def click_download_invoice(self):
         with self.page.expect_download() as download_info:
-            self.click(self.page.locator(L.BUTTON_DOWNLOAD_INVOICE), "Download Invoice")
+            self.click(self.button_download_invoice, "Download Invoice")
  
         download = download_info.value
         Path("assets/downloads").mkdir(exist_ok=True)

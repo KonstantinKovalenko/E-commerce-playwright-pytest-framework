@@ -1,40 +1,58 @@
 from pages.base_page import BasePage
-from pages.locators.signup_login_locators import SignupLoginLocators as L
 
 class SignupLoginPage(BasePage):
+    PATH = "/login"
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.title_new_user_signup = page.get_by_role("heading", name="New User Signup!")
+        self.title_login_to_account = page.get_by_role("heading", name="Login to your account")
+
+        self.input_signup_name = page.locator('[data-qa="signup-name"]')
+        self.input_signup_email = page.locator('[data-qa="signup-email"]')
+        self.button_signup = page.locator('[data-qa="signup-button"]')
+
+        self.input_login_email = page.locator('[data-qa="login-email"]')
+        self.input_login_password = page.locator('[data-qa="login-password"]')
+        self.button_login = page.locator('[data-qa="login-button"]')
+
+        self.login_error = page.get_by_text("Your email or password is incorrect!")
+        self.signup_error = page.get_by_text("Email Address already exist!")
+
     def verify_loaded(self):
         self.verify_title("Automation Exercise - Signup / Login")
 
     def verify_new_user_signup_visible(self):
         self.verify_visible(
-            self.page.locator(L.TITLE_NEW_USER_SIGNUP),
+            self.title_new_user_signup,
             "New User Signup section"
         )
 
     def verify_login_to_account_visible(self):
         self.verify_visible(
-            self.page.locator(L.TITLE_LOGIN_TO_ACCOUNT),
+            self.title_login_to_account,
             "Login to your account section"
         )
 
     def verify_login_validation_error(self):
         self.verify_text(
-            self.page.locator(L.LOGIN_ERROR),
+            self.login_error,
             "Your email or password is incorrect!"
         )
 
     def verify_email_already_exists_error(self):
         self.verify_text(
-            self.page.locator(L.SIGNUP_ERROR),
+            self.signup_error,
             "Email Address already exist!"
         )
 
     def signup(self, name: str, email: str):
-        self.fill(self.page.locator(L.INPUT_SIGNUP_NAME), name, "Name")
-        self.fill(self.page.locator(L.INPUT_SIGNUP_EMAIL), email, "Email")
-        self.click(self.page.locator(L.BUTTON_SIGNUP), "Signup button")
+        self.fill(self.input_signup_name, name, "Name")
+        self.fill(self.input_signup_email, email, "Email")
+        self.click(self.button_signup, "Signup button")
 
     def login(self, email: str, password: str):
-        self.fill(self.page.locator(L.INPUT_LOGIN_EMAIL), email, "Email")
-        self.fill(self.page.locator(L.INPUT_LOGIN_PASSWORD), password, "Password")
-        self.click(self.page.locator(L.BUTTON_LOGIN), "Login button")
+        self.fill(self.input_login_email, email, "Email")
+        self.fill(self.input_login_password, password, "Password")
+        self.click(self.button_login, "Login button")

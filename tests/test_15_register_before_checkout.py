@@ -2,8 +2,6 @@ import allure
 
 from utils.data_generator import generate_email
 from utils.test_data.users import TEST_USER
-from pages.locators.home_locators import HomeLocators as h_L
-from pages.locators.checkout.checkout_locators import CheckoutLocators as c_L
 
 @allure.feature("Checkout")
 @allure.story("Registered checkout")
@@ -31,8 +29,8 @@ def test_register_before_checkout(app):
 
     app.header.verify_logged_in()
   
-    product = app.home.get_product_info(h_L.PRODUCT_CARDS, 9)
-    app.home.add_product_to_cart(h_L.BUTTON_ADD_TO_CART, 9)
+    product = app.home.get_product_info(app.home.product_cards, 9)
+    app.home.add_product_to_cart(app.home.button_add_to_cart, 9)
     
     app.home.click_modal_view_cart()
     app.cart.verify_loaded()
@@ -40,7 +38,7 @@ def test_register_before_checkout(app):
     app.cart.click_proceed_to_checkout()
     app.checkout.verify_loaded()
 
-    app.checkout.verify_address(c_L.DELIVERY_ADDRESS, TEST_USER)
+    app.checkout.verify_address(app.checkout.delivery_address, TEST_USER)
     app.checkout.verify_product(0, product)
     app.checkout.verify_total_amount()
 

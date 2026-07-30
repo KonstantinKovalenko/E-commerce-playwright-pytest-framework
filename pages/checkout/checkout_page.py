@@ -2,58 +2,74 @@ import allure
 
 from pages.base_page import BasePage
 from utils.test_data.contact import CONTACT_US
-from pages.locators.checkout.checkout_locators import CheckoutLocators as L
 
 class CheckoutPage(BasePage):
+    PATH = "/checkout"
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.cart_items = page.locator('tbody tr')
+        self.item_name = page.locator('.cart_description a')
+        self.item_price = page.locator('.cart_price p')
+        self.item_quantity = page.locator('.cart_quantity button')
+        self.item_total_price = page.locator('.cart_total p')
+
+        self.delivery_address = page.locator('#address_delivery')
+        self.billing_address = page.locator('#address_invoice')
+        self.total_prices = page.locator('.cart_total_price')
+
+        self.text_area_comment = page.locator('.form-control')
+        self.button_place_order = page.get_by_role('link', name="Place Order")
+
     def verify_loaded(self):
-        self.verify_url(L.PATH)
+        self.verify_url(self.PATH)
 
     def click_place_order(self):
         self.click(
-            self.page.locator(L.BUTTON_PLACE_ORDER),
+            self.button_place_order,
             "Place Order"
         )
 
     def verify_product(self, index: int, expected: dict):
         with allure.step(f'Compare #{index + 1} added product with #{index + 1} item in the cart'):
-            product = self.page.locator(L.CART_ITEMS).nth(index)
+            product = self.cart_items.nth(index)
             
             self.verify_text(
-                product.locator(L.ITEM_NAME),
+                product.locator(self.item_name),
                 expected["name"]
             )
 
             self.verify_text(
-                product.locator(L.ITEM_PRICE),
+                product.locator(self.item_price),
                 f'Rs. {expected["price"]}'
             )
 
             quantity = int(
-                product.locator(L.ITEM_QUANTITY).inner_text()
+                product.locator(self.item_quantity).inner_text()
             )
 
             expected_total = expected["price"] * quantity
 
             self.verify_text(
-                product.locator(L.ITEM_TOTAL_PRICE),
+                product.locator(self.item_total_price),
                 f"Rs. {expected_total}"
             )
 
     def verify_address(self, locator: str, user: dict):
         with allure.step(f"Verify address: {locator}"):
-            address = self.page.locator(locator)
-            self.verify_text_contains(address, f'{user["first_name"]} {user["last_name"]}')
-            self.verify_text_contains(address, user["address"])
-            self.verify_text_contains(address, f'{user["city"]} {user["state"]} {user["zipcode"]}')
-            self.verify_text_contains(address, user["country"])
-            self.verify_text_contains(address, user["mobile"])
+            self.verify_text_contains(locator, f'{user["first_name"]} {user["last_name"]}')
+            self.verify_text_contains(locator, user["address"])
+            self.verify_text_contains(locator, f'{user["city"]} {user["state"]} {user["zipcode"]}')
+            self.verify_text_contains(locator, user["country"])
+            self.verify_text_contains(locator, user["mobile"])
 
     def add_comment(self):
-        self.fill(self.page.locator(L.TEXT_AREA_COMMENT), CONTACT_US["message"], "Comment")
+        self.fill(self.text_area_comment, CONTACT_US["message"], "Comment")
 
     def verify_total_amount(self):
         with allure.step("Verify total amount equals sum of product totals"):
-            totals = self.page.locator(L.TOTAL_PRICES)
+            totals = self.total_prices
 
             expected_total = 0
 

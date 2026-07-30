@@ -1,15 +1,21 @@
 from pages.base_page import BasePage
-from pages.locators.account.delete_account_locators import DeleteAccountLocators as L
 
 class DeleteAccountPage(BasePage):
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+
+        self.title_account_deleted = page.get_by_role("heading", name="Account Deleted!")
+        self.button_continue = page.locator('[data-qa="continue-button"]')
+
     def verify_loaded(self):
         self.verify_visible(
-            self.page.locator(L.TITLE_ACCOUNT_DELETED),
+            self.title_account_deleted,
             "Account Deleted page"
         )
 
     def click_continue(self):
         self.click(
-            self.page.locator(L.BUTTON_CONTINUE),
+            self.button_continue,
             "Continue button"
         )
