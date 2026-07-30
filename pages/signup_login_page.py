@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 
 class SignupLoginPage(BasePage):
     PATH = "/login"
@@ -19,21 +20,6 @@ class SignupLoginPage(BasePage):
 
         self.login_error = page.get_by_text("Your email or password is incorrect!")
         self.signup_error = page.get_by_text("Email Address already exist!")
-
-    def verify_loaded(self):
-        self.verify_title("Automation Exercise - Signup / Login")
-
-    def verify_new_user_signup_visible(self):
-        self.verify_visible(
-            self.title_new_user_signup,
-            "New User Signup section"
-        )
-
-    def verify_login_to_account_visible(self):
-        self.verify_visible(
-            self.title_login_to_account,
-            "Login to your account section"
-        )
 
     def verify_login_validation_error(self):
         self.verify_text(

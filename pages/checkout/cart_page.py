@@ -1,6 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from playwright.sync_api import expect
 
 class CartPage(BasePage):
@@ -19,9 +20,6 @@ class CartPage(BasePage):
         self.button_proceed_to_checkout = page.locator('#do_action .check_out')
         self.button_modal_register_login = page.locator(".modal-body").get_by_role("link", name="Register / Login")
         self.button_remove_product = page.locator('.cart_quantity_delete')
-
-    def verify_loaded(self):
-        self.verify_url(self.PATH)
 
     def click_proceed_to_checkout(self):
         self.click(

@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.users import TEST_USER
 
 class RegistrationPage(BasePage):
@@ -28,12 +29,6 @@ class RegistrationPage(BasePage):
         self.select_country = page.locator('#country')
      
         self.button_create_account = page.get_by_role("button", name="Create Account")
-
-    def verify_loaded(self):
-        self.verify_visible(
-            self.title_account_information,
-            "Enter Account Information section"
-        )
 
     def click_create_account(self):
         self.click(

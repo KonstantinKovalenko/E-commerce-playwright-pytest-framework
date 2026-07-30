@@ -1,6 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.products import BRANDS
 
 class ProductsPage(BasePage):
@@ -9,7 +10,6 @@ class ProductsPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.products_list = page.locator(".features_items")
         self.product_cards = page.locator(".features_items .col-sm-4 .productinfo")
 
         self.button_modal_continue_shopping = page.get_by_role("button", name="Continue Shopping")
@@ -37,21 +37,6 @@ class ProductsPage(BasePage):
             BRANDS["kookie_kids"]: page.get_by_role("link", name="Kookie Kids"),
             BRANDS["biba"]: page.get_by_role("link", name="Biba"),
         }
-
-    def verify_loaded(self):
-        self.verify_title("Automation Exercise - All Products")
-
-    def verify_products_list_visible(self):
-        self.verify_visible(
-            self.products_list,
-            "All Products section"
-        )
-
-    def verify_brands_visible(self):
-        self.verify_visible(
-            self.brands_filters,
-            "Brands filters section"
-        )
 
     def click_modal_continue_shopping(self):
         self.click(

@@ -1,6 +1,8 @@
 import allure
 
+from playwright.sync_api import expect
 from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
+from utils.test_data.titles import TITLES
 
 @allure.feature("User Account")
 @allure.story("Logout")
@@ -9,16 +11,21 @@ from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
 
 def test_logout_after_successful_login(app):
     app.home.open()
-    app.home.verify_loaded()
+    
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
 
     app.header.click_signup_login()
 
-    app.signup.verify_login_to_account_visible()
+    with allure.step(f'Verify "Login to your account" section is visible'):
+        expect(app.signup.title_login_to_account).to_be_visible()
 
     app.signup.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
 
-    app.header.verify_logged_in()
+    with allure.step(f'Verify "Logged in user" is visible'):
+        expect(app.header.logged_in_user).to_be_visible()
 
     app.header.click_logout()
 
-    app.signup.verify_loaded()
+    with allure.step(f'Verify page title "{TITLES['signup']}"'):
+        expect(app.signup.page).to_have_title(TITLES["signup"])

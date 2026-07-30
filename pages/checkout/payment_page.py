@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.payment import TEST_CARD
 
 class PaymentPage(BasePage):
@@ -14,9 +15,6 @@ class PaymentPage(BasePage):
         self.input_expire_year = page.locator('[data-qa="expiry-year"]')
 
         self.button_pay_confirm_order = page.locator('[data-qa="pay-button"]')
-
-    def verify_loaded(self):
-        self.verify_url(self.PATH)
 
     def click_pay_and_confirm_order(self):
         self.click(

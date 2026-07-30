@@ -1,6 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.contact import CONTACT_US
 
 class ContactUsPage(BasePage):
@@ -20,12 +21,6 @@ class ContactUsPage(BasePage):
         self.button_upload_file = page.locator('[name="upload_file"]')
         self.button_submit = page.locator('[data-qa="submit-button"]')
         self.button_home = page.locator("#form-section").get_by_role("link", name="Home")
-
-    def verify_get_in_touch_visible(self):
-        self.verify_visible(
-            self.title_get_in_touch,
-            "Get in touch title"
-        )
 
     def verify_success_message_visible(self):
         self.verify_text(

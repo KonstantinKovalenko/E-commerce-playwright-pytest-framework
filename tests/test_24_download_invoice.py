@@ -1,7 +1,9 @@
 import allure
 
+from playwright.sync_api import expect
 from utils.data_generator import generate_email
 from utils.test_data.users import TEST_USER
+from utils.test_data.titles import TITLES
 
 @allure.feature("Checkout")
 @allure.story("Invoice")
@@ -10,38 +12,48 @@ from utils.test_data.users import TEST_USER
 
 def test_download_invoice(app):
     app.home.open()
-    app.home.verify_loaded()
+    
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
    
     product = app.home.get_product_info(app.home.product_cards, 14)
     app.home.add_product_to_cart(app.home.button_add_to_cart, 14)
     
     app.home.click_modal_view_cart()
-    app.cart.verify_loaded()
+
+    with allure.step(f'Verify URL "{app.cart.PATH}"'):
+        expect(app.cart.page).to_have_url(app.cart.PATH)
 
     app.cart.click_proceed_to_checkout()
     app.cart.click_modal_register_login()
 
-    app.signup.verify_new_user_signup_visible()
+    with allure.step(f'Verify "New User Signup" section is visible'):
+        expect(app.signup.title_new_user_signup).to_be_visible()
 
     email = generate_email()
     app.signup.signup(TEST_USER["name"], email)
 
-    app.registration.verify_loaded()
+    with allure.step(f'Verify "Enter Account Information" section is visible'):
+        expect(app.registration.title_account_information).to_be_visible()
 
     app.registration.fill_account_information(TEST_USER["password"])
     app.registration.fill_address_information()
     app.registration.click_create_account()
 
-    app.account_created.verify_loaded()
+    with allure.step(f'Verify Account Created page is visible'):
+        expect(app.account_created.title_account_created).to_be_visible()
+
     app.account_created.click_continue()
 
-    app.header.verify_logged_in()
+    with allure.step(f'Verify "Logged in user" is visible'):
+        expect(app.header.logged_in_user).to_be_visible()
 
     app.header.click_cart()
 
     app.cart.click_proceed_to_checkout()
     
-    app.checkout.verify_loaded()
+    with allure.step(f'Verify URL "{app.checkout.PATH}"'):
+        expect(app.checkout.page).to_have_url(app.checkout.PATH)
 
     app.checkout.verify_address(app.checkout.delivery_address, TEST_USER)
     app.checkout.verify_product(0, product)
@@ -49,7 +61,9 @@ def test_download_invoice(app):
 
     app.checkout.add_comment()
     app.checkout.click_place_order()
-    app.payment.verify_loaded()
+    
+    with allure.step(f'Verify URL "{app.payment.PATH}"'):
+        expect(app.payment.page).to_have_url(app.payment.PATH)
 
     app.payment.fill_card_information()
     app.payment.click_pay_and_confirm_order()
@@ -63,5 +77,7 @@ def test_download_invoice(app):
 
     app.header.click_delete_account()
 
-    app.delete_account.verify_loaded()
+    with allure.step(f'Verify Account Deleted page is visible'):
+        expect(app.delete_account.title_account_deleted).to_be_visible()
+
     app.delete_account.click_continue()

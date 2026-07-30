@@ -1,8 +1,10 @@
 import allure
 import pytest
 
+from playwright.sync_api import expect
 from utils.data_generator import generate_email
 from utils.test_data.contact import UPLOAD_FILE_PATH
+from utils.test_data.titles import TITLES
 
 @pytest.mark.no_ads_block
 @allure.feature("Submit form")
@@ -12,11 +14,14 @@ from utils.test_data.contact import UPLOAD_FILE_PATH
 
 def test_contact_us_form_submission(app):
     app.home.open()
-    app.home.verify_loaded()
+    
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
 
     app.header.click_contact_us()
 
-    app.contact_us.verify_get_in_touch_visible()
+    with allure.step(f'Verify "Get in touch" title is visible'):
+        expect(app.contact_us.title_get_in_touch).to_be_visible()
 
     email = generate_email()
 
@@ -27,4 +32,6 @@ def test_contact_us_form_submission(app):
     app.contact_us.verify_success_message_visible()
 
     app.contact_us.click_home()
-    app.home.verify_loaded()
+
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])

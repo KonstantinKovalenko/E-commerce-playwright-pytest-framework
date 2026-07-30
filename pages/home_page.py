@@ -2,6 +2,7 @@ import allure
 import re
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.products import CATEGORIES
 
 class HomePage(BasePage):
@@ -43,23 +44,8 @@ class HomePage(BasePage):
 
         self.slide_carousel_titles = page.locator("#slider-carousel .carousel-inner").get_by_role("heading", level=2, name="Full-Fledged practice website for Automation Engineers")
 
-    def verify_loaded(self):
-        self.verify_title("Automation Exercise")
-
     def verify_carousel_title_visible(self):
         self.verify_text(self.slide_carousel_titles.first, "Full-Fledged practice website for Automation Engineers")
-
-    def verify_categories_visible(self):
-        self.verify_visible(
-            self.categories_section,
-            "Category section"
-        )
-
-    def verify_recommended_visible(self):
-        self.verify_visible(
-            self.recommended_section,
-            "Recommended section"
-        )
 
     def scroll_down_to_recommended(self):
         self.scroll_to(

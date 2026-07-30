@@ -35,21 +35,9 @@ class BasePage:
     def is_visible(self, locator: Locator):
         return locator.is_visible()
 
-    def verify_visible(self, locator: Locator, name: str):
-        with allure.step(f'Verify "{name}" is visible'):
-            expect(locator).to_be_visible()
-
     def verify_text(self, locator: Locator, expected: str):
         with allure.step(f'Verify text "{expected}"'):
             expect(locator).to_have_text(expected)
-
-    def verify_title(self, expected: str):
-        with allure.step(f'Verify page title "{expected}"'):
-            expect(self.page).to_have_title(expected)
-
-    def verify_url(self, expected: str):
-        with allure.step(f'Verify URL "{expected}"'):
-            expect(self.page).to_have_url(expected)
 
     def verify_url_contains(self, text: str):
         with allure.step(f'Verify URL contains "{text}"'):

@@ -1,6 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from pathlib import Path
 
 class PaymentDonePage(BasePage):

@@ -1,7 +1,9 @@
 import allure
 
+from playwright.sync_api import expect
 from config.settings import TEST_USER_EMAIL, TEST_USER_PASSWORD
 from utils.test_data.users import EXISTING_USER
+from utils.test_data.titles import TITLES
 
 @allure.feature("Checkout")
 @allure.story("Payment")
@@ -10,14 +12,22 @@ from utils.test_data.users import EXISTING_USER
 
 def test_login_then_checkout(app):
     app.home.open()
-    app.home.verify_loaded()
+    
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
 
     app.header.click_signup_login()
 
-    app.signup.verify_login_to_account_visible()
+    with allure.step(f'Verify "Login to your account" section is visible'):
+        expect(app.signup.title_login_to_account).to_be_visible()
+
     app.signup.login(TEST_USER_EMAIL, TEST_USER_PASSWORD)
-    app.home.verify_loaded()
-    app.header.verify_logged_in()
+
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
+
+    with allure.step(f'Verify "Logged in user" is visible'):
+        expect(app.header.logged_in_user).to_be_visible()
 
     product_1 = app.home.get_product_info(app.home.product_cards, 5)
     app.home.add_product_to_cart(app.home.button_add_to_cart, 5)
@@ -28,10 +38,14 @@ def test_login_then_checkout(app):
     app.home.add_product_to_cart(app.home.button_add_to_cart, 6)
 
     app.home.click_modal_view_cart()
-    app.cart.verify_loaded()
+    
+    with allure.step(f'Verify URL "{app.cart.PATH}"'):
+        expect(app.cart.page).to_have_url(app.cart.PATH)
 
     app.cart.click_proceed_to_checkout()
-    app.checkout.verify_loaded()
+    
+    with allure.step(f'Verify URL "{app.checkout.PATH}"'):
+        expect(app.checkout.page).to_have_url(app.checkout.PATH)
 
     app.checkout.verify_address(app.checkout.delivery_address, EXISTING_USER)
     app.checkout.verify_product(0, product_1)
@@ -40,7 +54,9 @@ def test_login_then_checkout(app):
 
     app.checkout.add_comment()
     app.checkout.click_place_order()
-    app.payment.verify_loaded()
+
+    with allure.step(f'Verify URL "{app.payment.PATH}"'):
+        expect(app.payment.page).to_have_url(app.payment.PATH)
 
     app.payment.fill_card_information()
     app.payment.click_pay_and_confirm_order()
@@ -49,4 +65,5 @@ def test_login_then_checkout(app):
 
     app.header.click_logout()
 
-    app.signup.verify_loaded()
+    with allure.step(f'Verify page title "{TITLES['signup']}"'):
+        expect(app.signup.page).to_have_title(TITLES["signup"])

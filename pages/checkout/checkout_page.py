@@ -1,6 +1,7 @@
 import allure
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.contact import CONTACT_US
 
 class CheckoutPage(BasePage):
@@ -21,9 +22,6 @@ class CheckoutPage(BasePage):
 
         self.text_area_comment = page.locator('.form-control')
         self.button_place_order = page.get_by_role('link', name="Place Order")
-
-    def verify_loaded(self):
-        self.verify_url(self.PATH)
 
     def click_place_order(self):
         self.click(

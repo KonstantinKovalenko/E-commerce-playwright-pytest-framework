@@ -2,6 +2,7 @@ import allure
 import re
 
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.products import CATEGORIES
 
 class CategoryProductsPage(BasePage):

@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from playwright.sync_api import Page
 from utils.test_data.products import REVIEW
 
 class ProductDetailsPage(BasePage):
@@ -31,9 +32,6 @@ class ProductDetailsPage(BasePage):
 
         self.review_success_message = page.locator(".alert-success").get_by_text("Thank you for your review.")
 
-    def verify_loaded(self):
-        self.verify_title("Automation Exercise - Product Details")
-
     def click_add_to_cart(self):
         self.click(
             self.button_add_to_cart,
@@ -53,15 +51,11 @@ class ProductDetailsPage(BasePage):
         )
 
     def verify_product_details_visible(self):
-        self.verify_visible(self.product_name, "Product name")
         self.verify_text_contains(self.category, "Category:")
         self.verify_text_contains(self.price, "Rs.")
         self.verify_text_contains(self.availability, "Availability:")
         self.verify_text_contains(self.condition, "Condition:")
         self.verify_text_contains(self.brand, "Brand:")
-
-    def verify_review_title_visible(self):
-        self.verify_visible(self.title_review, "Write Your Review")
 
     def verify_submit_success(self):
         self.verify_text(self.review_success_message, "Thank you for your review.")

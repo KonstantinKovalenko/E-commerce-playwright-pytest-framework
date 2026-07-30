@@ -1,5 +1,8 @@
 import allure
 
+from playwright.sync_api import expect
+from utils.test_data.titles import TITLES
+
 @allure.feature("Navigation")
 @allure.story("Scrolling elements")
 @allure.title("Scroll up arrow functionality")
@@ -7,7 +10,9 @@ import allure
 
 def test_scroll_up_using_arrow(app):
     app.home.open()
-    app.home.verify_loaded()
+    
+    with allure.step(f'Verify page title "{TITLES['home']}"'):
+        expect(app.home.page).to_have_title(TITLES["home"])
 
     app.footer.scroll_down_to_footer()
     

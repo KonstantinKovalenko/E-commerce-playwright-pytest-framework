@@ -20,12 +20,6 @@ class Header(BasePage):
 
         self.logged_in_user = self.links.get_by_text("Logged in as")
 
-    def verify_logged_in(self):
-        self.verify_visible(
-            self.logged_in_user,
-            "Logged in user"
-        )
-
     def scroll_up_to_header(self):
         self.scroll_to(
             self.site_header,

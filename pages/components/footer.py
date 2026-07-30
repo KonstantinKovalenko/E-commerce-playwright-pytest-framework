@@ -18,12 +18,6 @@ class Footer(BasePage):
             "Subscription"
         )
 
-    def verify_subscribe_success_visible(self):
-        self.verify_visible(
-            self.subscribe_success,
-            "You have been successfully subscribed!"
-        )
-
     def scroll_down_to_footer(self):
         self.scroll_to(
             self.site_footer,
