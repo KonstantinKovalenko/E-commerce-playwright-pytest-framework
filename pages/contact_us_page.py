@@ -35,8 +35,6 @@ class ContactUsPage(BasePage):
 
     def submit_form(self):
         with allure.step("Submit contact form"):
-            self.page.evaluate("window.confirm = () => true;")
+            self.page.once("dialog", lambda dialog: dialog.accept())
 
             self.click(self.page.locator(L.BUTTON_SUBMIT), "Submit button")
-
-            self.page.wait_for_selector(L.SUCCESS_MESSAGE, timeout=15000)

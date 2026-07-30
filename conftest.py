@@ -65,8 +65,6 @@ def page(request, context):
             else route.continue_()
         )
 
-    page.set_viewport_size({"width": 1920, "height": 1080})
-
     yield page
 
     page.close()

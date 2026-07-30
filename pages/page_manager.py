@@ -21,22 +21,125 @@ from pages.components.header import Header
 from pages.components.footer import Footer
 
 class PageManager:
-
     def __init__(self, page):
-        self.home = HomePage(page)
-        self.signup = SignupLoginPage(page)
-        self.contact_us = ContactUsPage(page)
-        self.test_cases = TestCasesPage(page)
-        self.registration = RegistrationPage(page)
-        self.account_created = AccountCreatedPage(page)
-        self.delete_account = DeleteAccountPage(page)
-        self.cart = CartPage(page)
-        self.checkout = CheckoutPage(page)
-        self.payment = PaymentPage(page)
-        self.payment_done = PaymentDonePage(page)
-        self.products = ProductsPage(page)
-        self.product_details = ProductDetailsPage(page)
-        self.category_products = CategoryProductsPage(page)
-        self.brand_products = BrandProductsPage(page)
-        self.header = Header(page)
-        self.footer = Footer(page)
+        self.page = page
+
+        self._home = None
+        self._signup = None
+        self._contact_us = None
+        self._test_cases = None
+        self._registration = None
+        self._account_created = None
+        self._delete_account = None
+        self._cart = None
+        self._checkout = None
+        self._payment = None
+        self._payment_done = None
+        self._products = None
+        self._product_details = None
+        self._category_products = None
+        self._brand_products = None
+        self._header = None
+        self._footer = None
+
+    @property
+    def home(self):
+        if self._home is None:
+            self._home = HomePage(self.page)
+        return self._home
+
+    @property
+    def signup(self):
+        if self._signup is None:
+            self._signup = SignupLoginPage(self.page)
+        return self._signup
+
+    @property
+    def contact_us(self):
+        if self._contact_us is None:
+            self._contact_us = ContactUsPage(self.page)
+        return self._contact_us
+    
+    @property
+    def test_cases(self):
+        if self._test_cases is None:
+            self._test_cases = TestCasesPage(self.page)
+        return self._test_cases
+
+    @property
+    def registration(self):
+        if self._registration is None:
+            self._registration = RegistrationPage(self.page)
+        return self._registration
+
+    @property
+    def account_created(self):
+        if self._account_created is None:
+            self._account_created = AccountCreatedPage(self.page)
+        return self._account_created
+
+    @property
+    def delete_account(self):
+        if self._delete_account is None:
+            self._delete_account = DeleteAccountPage(self.page)
+        return self._delete_account
+
+    @property
+    def cart(self):
+        if self._cart is None:
+            self._cart = CartPage(self.page)
+        return self._cart
+
+    @property
+    def checkout(self):
+        if self._checkout is None:
+            self._checkout = CheckoutPage(self.page)
+        return self._checkout
+
+    @property
+    def payment(self):
+        if self._payment is None:
+            self._payment = PaymentPage(self.page)
+        return self._payment
+
+    @property
+    def payment_done(self):
+        if self._payment_done is None:
+            self._payment_done = PaymentDonePage(self.page)
+        return self._payment_done
+
+    @property
+    def products(self):
+        if self._products is None:
+            self._products = ProductsPage(self.page)
+        return self._products
+
+    @property
+    def product_details(self):
+        if self._product_details is None:
+            self._product_details = ProductDetailsPage(self.page)
+        return self._product_details
+
+    @property
+    def category_products(self):
+        if self._category_products is None:
+            self._category_products = CategoryProductsPage(self.page)
+        return self._category_products
+
+    @property
+    def brand_products(self):
+        if self._category_products is None:
+            self._category_products = BrandProductsPage(self.page)
+        return self._category_products
+
+    @property
+    def header(self):
+        if self._header is None:
+            self._header = Header(self.page)
+        return self._header
+
+    @property
+    def footer(self):
+        if self._footer is None:
+            self._footer = Footer(self.page)
+        return self._footer
