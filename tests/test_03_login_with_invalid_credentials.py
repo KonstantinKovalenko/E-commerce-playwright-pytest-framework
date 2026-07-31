@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.test_data.users import INVALID_USER
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_title, expect_visible, expect_text
 
 @allure.feature("User Account")
 @allure.story("Failed Login")
@@ -11,15 +12,10 @@ from utils.test_data.titles import TITLES
 
 def test_login_with_invalid_credentials(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.header.click_signup_login()
-
-    with allure.step(f'Verify "Login to your account" section is visible'):
-        expect(app.signup.title_login_to_account).to_be_visible()
+    expect_visible(app.signup.title_login_to_account, "Login to your account section")
 
     app.signup.login(INVALID_USER["email"], INVALID_USER["password"])
-
-    app.signup.verify_login_validation_error()
+    expect_text(app.signup.login_error, "Your email or password is incorrect!")

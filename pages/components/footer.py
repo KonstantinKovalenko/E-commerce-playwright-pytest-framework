@@ -12,12 +12,6 @@ class Footer(BasePage):
         self.button_subscribe = page.locator('#subscribe')
         self.subscribe_success = page.locator('#success-subscribe')
       
-    def verify_subscription_visible(self):
-        self.verify_text(
-            self.title_subscription,
-            "Subscription"
-        )
-
     def scroll_down_to_footer(self):
         self.scroll_to(
             self.site_footer,

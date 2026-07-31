@@ -24,7 +24,7 @@ class ProductsPage(BasePage):
         self.button_search_product = page.locator('#submit_search')
 
         self.title_searched_products = page.locator(".features_items > h2")
-        self.product_name = page.locator('.features_items .productinfo p')
+        self.product_names = page.locator('.features_items .productinfo p')
 
         self.brands_filters = page.locator('.brands-name')
         self.brand_buttons = {
@@ -72,11 +72,10 @@ class ProductsPage(BasePage):
 
     def search_by_product_name(self, product: str):
         self.fill(self.input_search_product, product, "Product")
-        self.click(self.button_search_product, "First product - View Product")
+        self.click(self.button_search_product, "Search Product")
 
-    def verify_search_result(self, expected_name: str):
-        self.verify_text(self.title_searched_products, "Searched Products")
-        self.verify_text(self.product_name.first, expected_name)
+    def first_product_name(self):
+        return self.product_names.first
 
     def hover_over_product(self, index: int):
         with allure.step(f'Hover over product #{index + 1}'):
@@ -100,7 +99,5 @@ class ProductsPage(BasePage):
                 f"{brand} filter"
             )
 
-    def verify_multiple_search_results(self):
-        count = self.product_cards.count()
-        with allure.step(f"Verify multiple results are displayed ({count} found)"):
-            assert count > 0, "No products found"
+    def get_products_count(self):
+        return self.product_cards.count()

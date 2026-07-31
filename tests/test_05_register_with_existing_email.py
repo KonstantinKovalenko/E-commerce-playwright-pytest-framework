@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from config.settings import TEST_USER_EMAIL
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_title, expect_visible, expect_text
 
 @allure.feature("User Account")
 @allure.story("Failed registration")
@@ -11,15 +12,10 @@ from utils.test_data.titles import TITLES
 
 def test_register_user_with_existing_email(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.header.click_signup_login()
-
-    with allure.step(f'Verify "New User Signup" section is visible'):
-        expect(app.signup.title_new_user_signup).to_be_visible()
+    expect_visible(app.signup.title_new_user_signup, "New User Signup section")
 
     app.signup.signup("randomUser", TEST_USER_EMAIL)
-
-    app.signup.verify_email_already_exists_error()
+    expect_text(app.signup.signup_error, "Email Address already exist!")

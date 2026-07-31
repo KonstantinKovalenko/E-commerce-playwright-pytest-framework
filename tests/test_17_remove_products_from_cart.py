@@ -2,6 +2,7 @@ import allure
 
 from playwright.sync_api import expect
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_url, expect_title, expect_text
 
 @allure.feature("Cart")
 @allure.story("Remove products")
@@ -10,9 +11,7 @@ from utils.test_data.titles import TITLES
 
 def test_remove_products_from_cart(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.home.add_product_to_cart(app.home.button_add_to_cart, 18)
     app.home.click_modal_continue_shopping()
@@ -25,10 +24,7 @@ def test_remove_products_from_cart(app):
 
     app.home.add_product_to_cart(app.home.button_add_to_cart, 21)
     app.home.click_modal_view_cart()
-
-    with allure.step(f'Verify URL "{app.cart.PATH}"'):
-        expect(app.cart.page).to_have_url(app.cart.PATH)
+    expect_url(app.cart.page, app.cart.PATH)
 
     app.cart.remove_all_products()
-
-    app.cart.verify_cart_empty()
+    expect_text(app.cart.cart_empty, "Cart is empty!")

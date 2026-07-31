@@ -13,12 +13,6 @@ class PaymentDonePage(BasePage):
         self.button_continue = page.locator('[data-qa="continue-button"]')
         self.button_download_invoice = page.locator('.check_out')
 
-    def verify_success(self):
-        self.verify_text(
-            self.success_message,
-            "Congratulations! Your order has been confirmed!"
-        )
-
     def click_continue(self):
         self.click(
             self.button_continue,
@@ -33,6 +27,5 @@ class PaymentDonePage(BasePage):
         Path("assets/downloads").mkdir(exist_ok=True)
         download.save_as("assets/downloads/invoice.txt")
 
-    def verify_file_downloaded(self):
-        with allure.step(f'Verify "invoice.txt" exists in "assets/downloads" folder'):
-            assert Path("assets/downloads/invoice.txt").exists()
+    def invoice_file(self):
+        return Path("assets/downloads/invoice.txt")

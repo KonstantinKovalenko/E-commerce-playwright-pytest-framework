@@ -25,15 +25,6 @@ class BrandProductsPage(BasePage):
             BRANDS["biba"]: page.get_by_role("link", name="Biba"),
         }
 
-    def verify_loaded(self):
-        self.verify_url_contains(self.PATH)
-
-    def verify_filtered_title(self, expected_brand: str):
-        self.verify_text(
-            self.title_filtered_products,
-            f'Brand - {expected_brand} Products'
-        )
-
     def filter_by_brand(self, brand: str):
         with allure.step(f'Select brand: "{brand}"'):
             self.click(
@@ -41,7 +32,5 @@ class BrandProductsPage(BasePage):
                 f"{brand} filter"
             )
 
-    def verify_products_exist(self):
-        count = self.products_list.count()
-        with allure.step(f"Verify products are displayed ({count} found)"):
-            assert count > 0, "No products found"
+    def get_products_count(self):
+        return self.products_list.count()

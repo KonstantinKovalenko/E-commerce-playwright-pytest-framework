@@ -50,16 +50,6 @@ class ProductDetailsPage(BasePage):
             "Submit"
         )
 
-    def verify_product_details_visible(self):
-        self.verify_text_contains(self.category, "Category:")
-        self.verify_text_contains(self.price, "Rs.")
-        self.verify_text_contains(self.availability, "Availability:")
-        self.verify_text_contains(self.condition, "Condition:")
-        self.verify_text_contains(self.brand, "Brand:")
-
-    def verify_submit_success(self):
-        self.verify_text(self.review_success_message, "Thank you for your review.")
-
     def set_quantity(self, quantity: int):
         self.fill(self.input_quantity, str(quantity), "Quantity")
 

@@ -22,12 +22,6 @@ class ContactUsPage(BasePage):
         self.button_submit = page.locator('[data-qa="submit-button"]')
         self.button_home = page.locator("#form-section").get_by_role("link", name="Home")
 
-    def verify_success_message_visible(self):
-        self.verify_text(
-            self.success_message,
-            "Success! Your details have been submitted successfully."
-        )
-
     def click_home(self):
         self.click(
             self.button_home,

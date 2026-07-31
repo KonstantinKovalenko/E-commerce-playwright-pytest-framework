@@ -44,8 +44,8 @@ class HomePage(BasePage):
 
         self.slide_carousel_titles = page.locator("#slider-carousel .carousel-inner").get_by_role("heading", level=2, name="Full-Fledged practice website for Automation Engineers")
 
-    def verify_carousel_title_visible(self):
-        self.verify_text(self.slide_carousel_titles.first, "Full-Fledged practice website for Automation Engineers")
+    def first_carousel_slide(self):
+        return self.slide_carousel_titles.first
 
     def scroll_down_to_recommended(self):
         self.scroll_to(

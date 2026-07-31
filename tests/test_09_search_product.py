@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.test_data.products import SEARCH
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_title, expect_text
 
 @allure.feature("Products")
 @allure.story("Search")
@@ -11,15 +12,11 @@ from utils.test_data.titles import TITLES
 
 def test_search_product(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.header.click_products()
-
-    with allure.step(f'Verify page title "{TITLES['products']}"'):
-        expect(app.products.page).to_have_title(TITLES["products"])
+    expect_title(app.products.page, TITLES["products"])
     
     app.products.search_by_product_name(SEARCH["product"])
-
-    app.products.verify_search_result(SEARCH["product"])
+    expect_text(app.products.title_searched_products, "Searched Products")
+    expect_text(app.products.first_product_name(), SEARCH["product"])

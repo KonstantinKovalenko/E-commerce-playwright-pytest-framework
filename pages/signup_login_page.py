@@ -21,18 +21,6 @@ class SignupLoginPage(BasePage):
         self.login_error = page.get_by_text("Your email or password is incorrect!")
         self.signup_error = page.get_by_text("Email Address already exist!")
 
-    def verify_login_validation_error(self):
-        self.verify_text(
-            self.login_error,
-            "Your email or password is incorrect!"
-        )
-
-    def verify_email_already_exists_error(self):
-        self.verify_text(
-            self.signup_error,
-            "Email Address already exist!"
-        )
-
     def signup(self, name: str, email: str):
         self.fill(self.input_signup_name, name, "Name")
         self.fill(self.input_signup_email, email, "Email")

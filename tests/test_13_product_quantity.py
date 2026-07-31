@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.test_data.products import QUANTITY
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_url, expect_title, expect_text, expect_product
 
 @allure.feature("Cart")
 @allure.story("Quantity")
@@ -11,26 +12,22 @@ from utils.test_data.titles import TITLES
 
 def test_product_quantity(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
-    product = app.home.get_product_info(app.home.product_cards, 2)
+    added_product = app.home.get_product_info(app.home.product_cards, 2)
     app.home.click_view_product(2)
-
-    with allure.step(f'Verify page title "{TITLES['product_details']}"'):
-        expect(app.product_details.page).to_have_title(TITLES["product_details"])
+    expect_title(app.product_details.page, TITLES["product_details"])
 
     app.product_details.set_quantity(QUANTITY["value"])
-
     app.product_details.click_add_to_cart()
     app.product_details.click_modal_view_cart()
+    expect_url(app.cart.page, app.cart.PATH)
 
-    with allure.step(f'Verify URL "{app.cart.PATH}"'):
-        expect(app.cart.page).to_have_url(app.cart.PATH)
+    quantity_locator = app.cart.quantity_by_index(0)
+    expect_text(quantity_locator, str(QUANTITY["value"]))
 
-    app.cart.verify_quantity(0, QUANTITY["value"])
-    app.cart.verify_product(0, product)
+    cart_product = app.cart.get_product(0)
+    expect_product(cart_product, added_product)
 
     app.cart.remove_all_products()
-    app.cart.verify_cart_empty()
+    expect_text(app.cart.cart_empty, "Cart is empty!")

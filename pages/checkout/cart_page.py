@@ -33,27 +33,20 @@ class CartPage(BasePage):
             "Register / Login"
         )
 
-    def verify_product(self, index: int, expected: dict):
-        with allure.step(f'Compare #{index + 1} added product with #{index + 1} item in the cart'):
-            product = self.cart_items.nth(index)
-            self.verify_text(product.locator(self.item_name), expected["name"])
-            self.verify_text(product.locator(self.item_price), f'Rs. {expected["price"]}')
+    def get_product(self, index: int):
+        product = self.cart_items.nth(index)
 
-            quantity = int(product.locator(self.item_quantity).inner_text())
-            expected_total = expected["price"] * quantity
+        return {
+            "name": product.locator(self.item_name),
+            "price": product.locator(self.item_price),
+            "quantity": int(product.locator(self.item_quantity).inner_text()),
+            "total": product.locator(self.item_total_price),
+        }
 
-            self.verify_text(product.locator(self.item_total_price), f"Rs. {expected_total}")
-
-    def verify_quantity(self, index: int, expected: int):
-        with allure.step(f'Verify quantity equals expected value'):
-            product = self.cart_items.nth(index)
-            self.verify_text(product.locator(self.item_quantity), str(expected))
-
-    def verify_cart_empty(self):
-            self.verify_text(
-                self.cart_empty,
-                "Cart is empty!"
-            )
+    def quantity_by_index(self, index: int):
+        product = self.cart_items.nth(index)
+        with allure.step(f'Get quantity locator by index: {index}'):
+            return product.locator(self.item_quantity)
 
     def remove_all_products(self):
         with allure.step(f'Remove all products from cart'):
@@ -84,11 +77,3 @@ class CartPage(BasePage):
                     )
                 })
             return products
-
-    def verify_cart_contents_unchanged(self, actual_products: list[dict], expected_products: list[dict]):
-        with allure.step(f'Verify remembered products in the cart remain unchanged'):
-            assert actual_products == expected_products, (
-                f"Cart contents changed.\n"
-                f"Expected: {expected_products}\n"
-                f"Actual: {actual_products}"
-            )

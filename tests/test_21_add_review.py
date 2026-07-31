@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.data_generator import generate_email
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_title, expect_visible, expect_text
 
 @allure.feature("Products")
 @allure.story("Review")
@@ -11,25 +12,16 @@ from utils.test_data.titles import TITLES
 
 def test_add_review(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.header.click_products()
-
-    with allure.step(f'Verify page title "{TITLES['products']}"'):
-        expect(app.products.page).to_have_title(TITLES["products"])
+    expect_title(app.products.page, TITLES["products"])
 
     app.products.click_first_view_product()
-
-    with allure.step(f'Verify page title "{TITLES['product_details']}"'):
-        expect(app.product_details.page).to_have_title(TITLES["product_details"])
-
-    with allure.step(f'Verify "Write Your Review" is visible'):
-        expect(app.product_details.title_review).to_be_visible()
+    expect_title(app.product_details.page, TITLES["product_details"])
+    expect_visible(app.product_details.title_review, "Write Your Review")
 
     email = generate_email()
     app.product_details.fill_review_form(email)
     app.product_details.click_submit_review()
-
-    app.product_details.verify_submit_success()
+    expect_text(app.product_details.review_success_message, "Thank you for your review.")

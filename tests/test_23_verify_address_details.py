@@ -4,6 +4,7 @@ from playwright.sync_api import expect
 from utils.data_generator import generate_email
 from utils.test_data.users import TEST_USER
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_contains, expect_url, expect_title, expect_visible
 
 @allure.feature("Checkout")
 @allure.story("Address verification")
@@ -12,52 +13,47 @@ from utils.test_data.titles import TITLES
 
 def test_verify_address_details(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.header.click_signup_login()
-
-    with allure.step(f'Verify "New User Signup" section is visible'):
-        expect(app.signup.title_new_user_signup).to_be_visible()
+    expect_visible(app.signup.title_new_user_signup, "New User Signup section")
 
     email = generate_email()
     app.signup.signup(TEST_USER["name"], email)
-
-    with allure.step(f'Verify "Enter Account Information" section is visible'):
-        expect(app.registration.title_account_information).to_be_visible()
+    expect_visible(app.registration.title_account_information, "Enter Account Information section")
 
     app.registration.fill_account_information(TEST_USER["password"])
     app.registration.fill_address_information()
     app.registration.click_create_account()
-
-    with allure.step(f'Verify Account Created page is visible'):
-        expect(app.account_created.title_account_created).to_be_visible()
+    expect_visible(app.account_created.title_account_created, "Account Created page")
 
     app.account_created.click_continue()
-
-    with allure.step(f'Verify "Logged in user" is visible'):
-        expect(app.header.logged_in_user).to_be_visible()
+    expect_visible(app.header.logged_in_user, "Logged in user")
   
     product = app.home.get_product_info(app.home.product_cards, 12)
     app.home.add_product_to_cart(app.home.button_add_to_cart, 12)
     
     app.home.click_modal_view_cart()
-
-    with allure.step(f'Verify URL "{app.cart.PATH}"'):
-        expect(app.cart.page).to_have_url(app.cart.PATH)
+    expect_url(app.cart.page, app.cart.PATH)
 
     app.cart.click_proceed_to_checkout()
-    
-    with allure.step(f'Verify URL "{app.checkout.PATH}"'):
-        expect(app.checkout.page).to_have_url(app.checkout.PATH)
+    expect_url(app.checkout.page, app.checkout.PATH)
 
-    app.checkout.verify_address(app.checkout.delivery_address, TEST_USER)
-    app.checkout.verify_address(app.checkout.billing_address, TEST_USER)
+    with allure.step(f"Verify address: {app.checkout.delivery_address}"):
+        expect_contains(app.checkout.delivery_address, f'{TEST_USER["first_name"]} {TEST_USER["last_name"]}')
+        expect_contains(app.checkout.delivery_address, TEST_USER["address"])
+        expect_contains(app.checkout.delivery_address, f'{TEST_USER["city"]} {TEST_USER["state"]} {TEST_USER["zipcode"]}')
+        expect_contains(app.checkout.delivery_address, TEST_USER["country"])
+        expect_contains(app.checkout.delivery_address, TEST_USER["mobile"])
+
+    with allure.step(f"Verify address: {app.checkout.billing_address}"):
+        expect_contains(app.checkout.billing_address, f'{TEST_USER["first_name"]} {TEST_USER["last_name"]}')
+        expect_contains(app.checkout.billing_address, TEST_USER["address"])
+        expect_contains(app.checkout.billing_address, f'{TEST_USER["city"]} {TEST_USER["state"]} {TEST_USER["zipcode"]}')
+        expect_contains(app.checkout.billing_address, TEST_USER["country"])
+        expect_contains(app.checkout.billing_address, TEST_USER["mobile"])
 
     app.header.click_delete_account()
-
-    with allure.step(f'Verify Account Deleted page is visible'):
-        expect(app.delete_account.title_account_deleted).to_be_visible()
+    expect_visible(app.delete_account.title_account_deleted, "Account Deleted page")
 
     app.delete_account.click_continue()

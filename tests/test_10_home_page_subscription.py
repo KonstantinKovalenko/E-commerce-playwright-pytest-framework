@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.data_generator import generate_email
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_title, expect_visible, expect_text
 
 @allure.feature("Subscript")
 @allure.story("Home page subscription")
@@ -11,16 +12,11 @@ from utils.test_data.titles import TITLES
 
 def test_home_page_footer_subscription(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
+    expect_title(app.home.page, TITLES["home"])
 
     app.footer.scroll_down_to_footer()
-
-    app.footer.verify_subscription_visible()
+    expect_text(app.footer.title_subscription, "Subscription")
 
     email = generate_email()
     app.footer.subscribe(email)
-
-    with allure.step(f'Verify "You have been successfully subscribed!" is visible'):
-        expect(app.footer.subscribe_success).to_be_visible()
+    expect_visible(app.footer.subscribe_success, "You have been successfully subscribed!")

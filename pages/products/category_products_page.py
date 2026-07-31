@@ -34,12 +34,6 @@ class CategoryProductsPage(BasePage):
     def verify_loaded(self):
         self.verify_url_contains(self.PATH)
 
-    def verify_filtered_title(self, expected_category, expected_filter: str):
-        self.verify_text(
-            self.title_filtered_products,
-            f'{expected_category} - {expected_filter} Products'
-        )
-
     def select_category(self, category: str, subcategory: str):
         with allure.step(f'Select category: "{category}" > "{subcategory}"'):
             self.click(

@@ -3,6 +3,7 @@ import allure
 from playwright.sync_api import expect
 from utils.test_data.products import CATEGORIES, WOMEN_CATEGORIES, MEN_CATEGORIES, KIDS_CATEGORIES
 from utils.test_data.titles import TITLES
+from utils.assertions import expect_url_contains, expect_title, expect_visible, expect_text
 
 @allure.feature("Products")
 @allure.story("Categories")
@@ -11,21 +12,15 @@ from utils.test_data.titles import TITLES
 
 def test_view_category_products(app):
     app.home.open()
-    
-    with allure.step(f'Verify page title "{TITLES['home']}"'):
-        expect(app.home.page).to_have_title(TITLES["home"])
-
-    with allure.step(f'Verify "Category" section is visible'):
-        expect(app.home.categories_section).to_be_visible()
+    expect_title(app.home.page, TITLES["home"])
+    expect_visible(app.home.categories_section, "Category section")
 
     app.home.select_category(CATEGORIES["women"], WOMEN_CATEGORIES["dress"])
-
-    app.category_products.verify_loaded()
-    
-    app.category_products.verify_filtered_title(CATEGORIES["women"], WOMEN_CATEGORIES["dress"])
+    expect_url_contains(app.category_products.page, app.category_products.PATH)
+    expect_text(app.category_products.title_filtered_products, f'{CATEGORIES["women"]} - {WOMEN_CATEGORIES["dress"]} Products')
 
     app.category_products.select_category(CATEGORIES["men"], MEN_CATEGORIES["jeans"])
-    app.category_products.verify_filtered_title(CATEGORIES["men"], MEN_CATEGORIES["jeans"])
+    expect_text(app.category_products.title_filtered_products, f'{CATEGORIES["men"]} - {MEN_CATEGORIES["jeans"]} Products')
 
     app.category_products.select_category(CATEGORIES["kids"], KIDS_CATEGORIES["tops_shirts"])
-    app.category_products.verify_filtered_title(CATEGORIES["kids"], KIDS_CATEGORIES["tops_shirts"])
+    expect_text(app.category_products.title_filtered_products, f'{CATEGORIES["kids"]} - {KIDS_CATEGORIES["tops_shirts"]} Products')
