@@ -2,8 +2,7 @@
 
 Automated end-to-end testing framework for the Automation Exercise website built with **Playwright**, **Pytest**, and **Python**.  
 
-✔ Page Object Model (POM) with separated locator classes   
-✔ Reusable Base Page, page objects, and fixtures  
+✔ Reusable Base Page, Page Objects, fixtures, and assertion helpers   
 ✔ Dynamic test data generation  
 ✔ Environment variables with `.env` and GitHub Secrets  
 ✔ Cross-browser execution  
@@ -38,6 +37,7 @@ Test target: [https://automationexercise.com/](https://automationexercise.com/)
 GitHub Actions automatically:
 
 - Installs dependencies and Playwright browsers
+- Uses dependency caching for faster CI runs
 - Executes tests on Chromium and Firefox
 - Merges browser test results into a single Allure Report
 - Publishes reports to GitHub Pages
@@ -66,12 +66,8 @@ GitHub Actions automatically:
 │   ├── checkout/ 
 │   ├── products/  
 │   ├── components/ 
-│   ├── locators/ 
-│   │   ├── account/  
-│   │   ├── checkout/  
-│   │   ├── products/  
-│   │   └── components/
-│   ├── base_page.py 
+│   ├── base_page.py
+│   ├── page_manager.py  
 │   └── ... 
 │
 ├── tests/ 
@@ -83,6 +79,7 @@ GitHub Actions automatically:
 │   ├── test_data/
 │   │   ├── users.py    
 │   │   └── ...
+│   ├── assertions.py 
 │   └── data_generator.py  
 │
 ├── conftest.py 
