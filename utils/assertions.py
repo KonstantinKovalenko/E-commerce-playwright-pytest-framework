@@ -20,11 +20,11 @@ def expect_visible(locator, name: str):
     with allure.step(f'Verify "{name}" is visible'):
         expect(locator).to_be_visible()
 
-def expect_text(locator: Locator, expected: str):
+def expect_text(locator, expected: str):
     with allure.step(f'Verify text "{expected}"'):
         expect(locator).to_have_text(expected)
 
-def expect_contains(locator: Locator, expected: str):
+def expect_contains(locator, expected: str):
     with allure.step(f'Verify text contains "{expected}"'):
         expect(locator).to_contain_text(expected)
 
